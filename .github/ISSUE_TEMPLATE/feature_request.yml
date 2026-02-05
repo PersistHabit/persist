@@ -1,0 +1,42 @@
+name: ✨ Feature request
+description: Proposer une nouvelle fonctionnalité ou amélioration
+title: "[FEAT] "
+labels: ["enhancement"]
+assignees: []
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problème / besoin
+      description: Quel problème cherches-tu à résoudre ?
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Solution proposée
+      description: Comment imagines-tu la fonctionnalité ?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives envisagées
+      description: Autres solutions possibles (si applicable)
+
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact estimé
+      options:
+        - faible
+        - moyen
+        - élevé
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes / contraintes
+      description: Contraintes techniques, risques, dépendances

@@ -1,0 +1,124 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - "feat/**"
+      - "fix/**"
+    paths-ignore:
+      - "**/*.md"
+      - "docs/**"
+
+  pull_request:
+    branches: [dev, prod]
+    paths-ignore:
+      - "**/*.md"
+      - "docs/**"
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci_branch:
+    name: CI Branch (lint/typecheck/build)
+    if: ${{ github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.28.2
+          run_install: false
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.13.0
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Build
+        run: pnpm build
+
+  ci_pr:
+    name: CI PR (tests + postgres)
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:18.1
+        env:
+          POSTGRES_USER: user_test
+          POSTGRES_PASSWORD: user_test
+          POSTGRES_DB: app_test_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U user_test -d app_test_db"
+          --health-interval=5s
+          --health-timeout=3s
+          --health-retries=30
+
+    env:
+      NODE_ENV: test
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+      DB_USER: user_test
+      DB_PASSWORD: user_test
+      DB_DATABASE: app_test_db
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.28.2
+          run_install: false
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.13.0
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Wait for Postgres
+        run: |
+          for i in {1..30}; do
+            pg_isready -h 127.0.0.1 -p 5432 -U user_test -d app_test_db && exit 0
+            sleep 1
+          done
+          exit 1
+        env:
+          PGPASSWORD: user_test
+
+      - name: Migrations
+        run: node ace migration:run --force
+
+      - name: Tests
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
