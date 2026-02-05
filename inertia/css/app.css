@@ -2,4 +2,84 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
+	--font-sans: "Inter", sans-serif;
+
+	--color-background: hsl(30 15% 97%);
+	--color-foreground: hsl(240 10% 10%);
+
+	--color-card: hsl(0 0% 100%);
+	--color-card-foreground: hsl(240 10% 10%);
+
+	--color-popover: hsl(0 0% 100%);
+	--color-popover-foreground: hsl(240 10% 10%);
+
+	--color-primary: hsl(172 50% 40%);
+	--color-primary-foreground: hsl(0 0% 100%);
+
+	--color-secondary: hsl(30 10% 92%);
+	--color-secondary-foreground: hsl(240 10% 20%);
+
+	--color-muted: hsl(30 10% 94%);
+	--color-muted-foreground: hsl(240 5% 50%);
+
+	--color-accent: hsl(30 10% 92%);
+	--color-accent-foreground: hsl(240 10% 10%);
+
+	--color-destructive: hsl(0 60% 50%);
+	--color-destructive-foreground: hsl(0 0% 100%);
+
+	--color-border: hsl(30 10% 90%);
+	--color-input: hsl(30 10% 90%);
+	--color-ring: hsl(172 50% 40%);
+
+	/* Moment of day colors */
+	--color-moment-morning: hsl(45 90% 55%);
+	--color-moment-afternoon: hsl(210 55% 55%);
+	--color-moment-evening: hsl(270 45% 60%);
+}
+
+/* =========================
+   DARK THEME
+   ========================= */
+html.dark {
+	--color-background: hsl(0 0% 8%);
+	--color-foreground: hsl(30 10% 92%);
+
+	--color-card: hsl(0 0% 11%);
+	--color-card-foreground: hsl(30 10% 92%);
+
+	--color-popover: hsl(0 0% 11%);
+	--color-popover-foreground: hsl(30 10% 92%);
+
+	--color-primary: rgb(70, 185, 170);
+	--color-primary-foreground: hsl(0 0% 8%);
+
+	--color-secondary: hsl(0 0% 15%);
+	--color-secondary-foreground: hsl(30 10% 85%);
+
+	--color-muted: hsl(0 0% 15%);
+	--color-muted-foreground: hsl(30 5% 55%);
+
+	--color-accent: hsl(0 0% 15%);
+	--color-accent-foreground: hsl(30 10% 92%);
+
+	--color-destructive: hsl(0 55% 45%);
+	--color-destructive-foreground: hsl(0 0% 100%);
+
+	--color-border: hsl(0 0% 18%);
+	--color-input: hsl(0 0% 18%);
+	--color-ring: hsl(172 45% 50%);
+
+	/* Moment of day colors */
+	--color-moment-morning: hsl(45 80% 50%);
+	--color-moment-afternoon: hsl(210 50% 50%);
+	--color-moment-evening: hsl(270 40% 55%);
+}
+
+/* Native elements */
+:root {
+	color-scheme: light;
+}
+html.dark {
+	color-scheme: dark;
 }

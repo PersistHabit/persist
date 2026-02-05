@@ -6,7 +6,7 @@ export default function Home() {
 			<Head title="Homepage" />
 
 			<div className="pt-4 h-full flex flex-col">
-				<h1>Hello world</h1>
+				<h1 className="text-primary">Hello world</h1>
 			</div>
 		</>
 	);
