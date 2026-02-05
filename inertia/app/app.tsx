@@ -2,6 +2,7 @@
 /// <reference path="../../config/inertia.ts" />
 
 import "../css/app.css";
+import "../css/global.css";
 import { resolvePageComponent } from "@adonisjs/inertia/helpers";
 import { createInertiaApp } from "@inertiajs/react";
 import { createRoot } from "react-dom/client";
@@ -9,7 +10,7 @@ import { createRoot } from "react-dom/client";
 const appName = import.meta.env.VITE_APP_NAME || "AdonisJS";
 
 createInertiaApp({
-	progress: { color: "#5468FF" },
+	progress: { color: "#46B9AA" },
 
 	title: (title) => `${title} - ${appName}`,
 
