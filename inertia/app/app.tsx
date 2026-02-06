@@ -7,7 +7,7 @@ import { resolvePageComponent } from "@adonisjs/inertia/helpers";
 import { createInertiaApp } from "@inertiajs/react";
 import { createRoot } from "react-dom/client";
 
-const appName = import.meta.env.VITE_APP_NAME || "AdonisJS";
+const appName = import.meta.env.VITE_APP_NAME || "Persist";
 
 createInertiaApp({
 	progress: { color: "#46B9AA" },
