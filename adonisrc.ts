@@ -55,6 +55,9 @@ export default defineConfig({
 		() => import("@adonisjs/cors/cors_provider"),
 		() => import("@adonisjs/inertia/inertia_provider"),
 		() => import("@adonisjs/lucid/database_provider"),
+		() => import("@adonisjs/auth/auth_provider"),
+		() => import("@adonisjs/limiter/limiter_provider"),
+		() => import("@adonisjs/redis/redis_provider"),
 	],
 
 	/*
@@ -65,7 +68,13 @@ export default defineConfig({
 | List of modules to import before starting the application.
 |
 */
-	preloads: [() => import("#start/routes"), () => import("#start/kernel")],
+	preloads: [
+		() => import("#start/routes"),
+		() => import("#start/kernel"),
+		() => import("#start/vine/rules/unique"),
+		() => import("#start/vine/rules/exists"),
+		() => import("#start/vine/messages"),
+	],
 
 	/*
 |--------------------------------------------------------------------------
