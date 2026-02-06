@@ -1,31 +1,26 @@
-import { Head, router } from "@inertiajs/react";
-import Button from "@/components/ui/button";
+import { Head } from "@inertiajs/react";
+import AppLayout from "./_layout";
 
-export default function Home({
+const HomePage = ({
 	user,
 }: {
 	user: {
 		fullName: string;
 		email: string;
 	};
-}) {
-	const handleLogout = () => {
-		router.delete("/auth");
-	};
-
+}) => {
 	return (
 		<>
-			<Head title="Homepage" />
+			<Head title="Aujourd'hui" />
 
 			<div className="pt-4 h-full flex flex-col">
 				<h1 className="text-primary">Hello world</h1>
 				{user.fullName}
-				<div className="w-48">
-					<Button type="button" onClick={handleLogout}>
-						Se déconnecter
-					</Button>
-				</div>
 			</div>
 		</>
 	);
-}
+};
+
+HomePage.layout = (page: React.ReactNode) => <AppLayout>{page}</AppLayout>;
+
+export default HomePage;
