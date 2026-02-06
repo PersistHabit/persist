@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:18.1
+    image: postgres:18.1-bookworm
     container_name: persist-postgres
     restart: unless-stopped
     environment:
@@ -15,6 +15,19 @@ services:
       interval: 5s
       timeout: 3s
       retries: 20
+  
+  redis:
+    image: redis:7.4-bookworm
+    container_name: persist-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
 
   app:
     image: ghcr.io/persist/persist:latest
@@ -22,6 +35,8 @@ services:
     restart: unless-stopped
     depends_on:
       postgres:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     env_file:
       - .env
@@ -31,3 +46,5 @@ services:
 volumes:
   postgres_data:
     name: persist_postgres_data
+  redis_data:
+    name: persist_redis_data
