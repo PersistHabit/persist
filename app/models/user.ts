@@ -2,8 +2,10 @@ import { withAuthFinder } from "@adonisjs/auth/mixins/lucid";
 import { DbRememberMeTokensProvider } from "@adonisjs/auth/session";
 import { compose } from "@adonisjs/core/helpers";
 import hash from "@adonisjs/core/services/hash";
-import { BaseModel, column } from "@adonisjs/lucid/orm";
+import { BaseModel, column, hasMany } from "@adonisjs/lucid/orm";
+import type { HasMany } from "@adonisjs/lucid/types/relations";
 import type { DateTime } from "luxon";
+import AgendaItem from "./agenda_item.js";
 
 const AuthFinder = withAuthFinder(() => hash.use("argon"), {
 	uids: ["email"],
@@ -31,6 +33,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
 	@column.dateTime({ autoCreate: true, autoUpdate: true })
 	declare updatedAt: DateTime | null;
+
+	@hasMany(() => AgendaItem)
+	declare agendaItems: HasMany<typeof AgendaItem>;
 
 	static rememberMeTokens = DbRememberMeTokensProvider.forModel(User);
 }
