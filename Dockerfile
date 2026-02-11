@@ -4,7 +4,7 @@
 FROM node:24.13.0-bookworm AS base
 WORKDIR /app
 
-RUN corepack enable && corepack prepare pnpm@10.28.2 --activate
+RUN corepack enable && corepack prepare pnpm@10.29.1 --activate
 
 # -------------------------
 # Dependencies (all)
