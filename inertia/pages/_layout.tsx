@@ -1,29 +1,22 @@
-import { type PropsWithChildren, useState } from "react";
+import type { PropsWithChildren } from "react";
 import { routes } from "@/app/routes";
-import SettingsModal from "@/components/layout/settings-modal";
 import Sidebar from "@/components/layout/sidebar";
 import Tabbar from "@/components/layout/tab-bar";
+import { ModalProvider } from "@/components/modal/modal-context";
 
 const AppLayout = ({ children }: PropsWithChildren) => {
-	const [openSettings, setOpenSettings] = useState(false);
-
 	return (
-		<div className="flex flex-col lg:flex-row h-screen overflow-hidden">
-			<Sidebar
-				routes={routes}
-				openSettingsModal={() => setOpenSettings(true)}
-			/>
+		<ModalProvider>
+			<div className="flex flex-col lg:flex-row h-screen overflow-hidden">
+				<Sidebar routes={routes} />
 
-			<main className="w-full flex-1 min-h-0 flex flex-col overflow-hidden">
-				{children}
-			</main>
+				<main className="w-full flex-1 min-h-0 flex flex-col overflow-hidden">
+					{children}
+				</main>
 
-			<Tabbar routes={routes} />
-			<SettingsModal
-				open={openSettings}
-				onClose={() => setOpenSettings(false)}
-			/>
-		</div>
+				<Tabbar routes={routes} />
+			</div>
+		</ModalProvider>
 	);
 };
 

@@ -49,7 +49,7 @@ const LoginPage = () => {
 									Se souvenir de moi
 								</label>
 							</div>
-							<Button isLoading={processing} type="submit">
+							<Button processing={processing} type="submit">
 								Se connecter
 							</Button>
 							{errors.E_INVALID_CREDENTIALS && (

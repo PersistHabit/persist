@@ -9,8 +9,9 @@
 import type { HttpContext } from "@adonisjs/core/http";
 import router from "@adonisjs/core/services/router";
 
-import "./routes/auth.js";
 import { middleware } from "./kernel.js";
+import "./routes/auth.js";
+import "./routes/agenda.js";
 
 router
 	.get("/", async ({ inertia, auth }: HttpContext) => {

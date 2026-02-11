@@ -1,5 +1,12 @@
-import { BookOpen, Calendar, Hash, Leaf, ShoppingBasket } from "lucide-react";
-import type { NavLinkRoute } from "#/types/nav";
+import type { NavLinkRoute } from "@shared/types/nav";
+import {
+	BookOpen,
+	Calendar,
+	ChartArea,
+	Hash,
+	Leaf,
+	ShoppingBasket,
+} from "lucide-react";
 
 export const routes: NavLinkRoute[] = [
 	{
@@ -31,5 +38,11 @@ export const routes: NavLinkRoute[] = [
 		subLabel: "Things to buy",
 		route: "/shopping",
 		icon: ShoppingBasket,
+	},
+	{
+		label: "Habitudes",
+		subLabel: "Track your habits",
+		route: "/stats",
+		icon: ChartArea,
 	},
 ];

@@ -1,41 +1,50 @@
-import { Loader2 } from "lucide-react";
+import type { ButtonVariant } from "@shared/types/app";
+import { clsx } from "clsx";
+import { Loader } from "lucide-react";
 import type { ButtonHTMLAttributes } from "react";
 
-type Props = {
-	isLoading?: boolean;
-} & ButtonHTMLAttributes<HTMLButtonElement>;
-
-const Button = ({
-	isLoading,
-	className,
-	children,
-	disabled,
-	...props
-}: Props) => {
-	return (
-		<button
-			disabled={disabled || isLoading}
-			className={[
-				"inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer font-semibold",
-				"ring-offset-background transition-colors",
-				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-				"disabled:pointer-events-none disabled:opacity-50",
-				"[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
-				"bg-primary text-primary-foreground hover:bg-primary/90",
-				"px-4 py-2 w-full h-12 rounded-xl text-base font-medium mt-2",
-				className ?? "",
-			].join(" ")}
-			{...props}
-		>
-			{isLoading ? (
-				<span className="[&_svg]:size-6">
-					<Loader2 className="animate-spin" />
-				</span>
-			) : (
-				children
-			)}
-		</button>
-	);
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+	icon?: React.ReactNode;
+	variant?: ButtonVariant;
+	processing?: boolean;
+	autoHide?: boolean;
 };
 
-export default Button;
+export default function Button({
+	type = "button",
+	variant = "primary",
+	autoHide = false,
+	icon,
+	children,
+	processing,
+	...props
+}: ButtonProps) {
+	const base = clsx(
+		"flex items-center transition justify-center gap-2 font-semibold rounded-2xl transition cursor-pointer text-sm max-h-10 disabled:bg-muted p-6 ",
+		props.className,
+	);
+
+	const variants = {
+		primary: "bg-primary text-primary-foreground hover:bg-primary/90",
+		secondary: "bg-secondary",
+		danger:
+			"bg-destructive text-destructive-foreground hover:bg-destructive/90",
+	}[variant];
+
+	const content = (
+		<>
+			{icon && <span className="shrink-0">{icon}</span>}
+			{children && (
+				<span className={`${autoHide && "hidden lg:block"}`}>{children}</span>
+			)}
+		</>
+	);
+
+	const classes = clsx(base, variants);
+
+	return (
+		<button type={type} {...props} className={classes}>
+			{processing ? <Loader className="animate-spin" /> : content}
+		</button>
+	);
+}

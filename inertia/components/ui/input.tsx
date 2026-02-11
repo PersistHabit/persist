@@ -10,7 +10,7 @@ type Props = {
 	label?: ReactNode;
 	error?: string;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, "size" | "type"> & {
-		type?: "text" | "email" | "password" | "number" | "search";
+		type?: "text" | "email" | "password" | "number" | "search" | "date";
 	};
 
 const Input = ({
