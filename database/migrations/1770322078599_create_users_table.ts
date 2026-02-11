@@ -9,7 +9,7 @@ export default class extends BaseSchema {
 
 			table.string("full_name", 150).notNullable();
 
-			table.string("email", 255).nullable();
+			table.string("email", 255).notNullable();
 
 			table.string("password", 180).notNullable();
 
