@@ -1,0 +1,51 @@
+# deps locales
+node_modules
+.pnpm-store
+
+# git & meta
+.git
+.gitignore
+
+# env & secrets
+.env
+.env.*
+*.key
+
+# builds locaux
+dist
+build
+coverage
+
+# logs & OS
+npm-debug.logs
+pnpm-debug.logs
+.DS_STORE
+
+# caches outils
+.cache
+.vite
+.eslintcache
+.biome-cache
+
+# tests & tmp
+.tmp
+.temp
+japa-report
+reports
+
+# editor / ide
+.vscode
+.idea
+
+# docker & ci meta
+Dockerfile*
+compose*.yaml
+.github
+
+# pnpm / corepack
+.pnpm-debug.log
+.pnpmfile.cjs
+
+# misc
+*.log
+*.swp
