@@ -2,13 +2,7 @@ import { router, useForm } from "@inertiajs/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Trash } from "lucide-react";
 import { useMemo, useState } from "react";
-import type {
-	CategorySlug,
-	DayMomentSlug,
-	RecurrenceTypeSlug,
-	RecurrenceUnitSlug,
-	WeekdaySlug,
-} from "#types/agenda";
+import type { NewEventFormData } from "#types/agenda";
 import Button from "@/components/ui/button";
 import { NewEventSchema } from "@/schemas/agenda.schema";
 import { toDateInputValue } from "@/utils/agenda";
@@ -16,19 +10,6 @@ import { applyZodErrors } from "@/utils/schema";
 import { useModal } from "../modal/modal-context";
 import StepBasics from "./step-basis";
 import StepRepeat from "./step-repeat";
-
-type NewEventFormData = {
-	title: string;
-	dayMoment: DayMomentSlug;
-	category: CategorySlug;
-	startDate: string;
-	recurrence: {
-		type: RecurrenceTypeSlug;
-		interval?: number;
-		unit?: RecurrenceUnitSlug;
-		days: WeekdaySlug[];
-	};
-};
 
 type Step = 0 | 1;
 

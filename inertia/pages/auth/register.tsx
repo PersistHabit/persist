@@ -62,7 +62,7 @@ const RegisterPage = () => {
 								minLength={12}
 								maxLength={180}
 							/>
-							<Button processing={processing} type="submit">
+							<Button processing={processing} type="submit" className="w-full">
 								Créer mon compte
 							</Button>
 							{errors.E_TOO_MANY_REQUESTS && (

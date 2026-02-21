@@ -1,4 +1,3 @@
-import type { NavLinkRoute } from "@shared/types/nav";
 import {
 	BookOpen,
 	Calendar,
@@ -7,6 +6,7 @@ import {
 	Leaf,
 	ShoppingBasket,
 } from "lucide-react";
+import type { NavLinkRoute } from "#types/nav";
 
 export const routes: NavLinkRoute[] = [
 	{

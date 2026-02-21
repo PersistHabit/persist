@@ -1,4 +1,4 @@
-import type { Icon } from "@shared/types/app";
+import type { Icon } from "#types/app";
 
 type Props = {
 	icon: Icon;

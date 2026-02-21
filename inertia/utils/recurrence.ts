@@ -125,7 +125,7 @@ export function build14Days(
 ): DayBucket[] {
 	const start = startOfDay(from);
 
-	const buckets: DayBucket[] = Array.from({ length: 14 }, (_, i) => ({
+	const buckets: DayBucket[] = Array.from({ length: 15 }, (_, i) => ({
 		date: addDays(start, i),
 		events: [],
 	}));

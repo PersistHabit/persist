@@ -1,5 +1,5 @@
-import type { BarProps } from "@shared/types/nav";
 import { Settings as SettingsIcon } from "lucide-react";
+import type { BarProps } from "#types/nav";
 import { version } from "@/app/version";
 import { useModal } from "../modal/modal-context";
 import Settings from "./settings";

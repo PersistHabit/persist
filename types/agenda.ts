@@ -282,3 +282,16 @@ export type AgendaItemOccurrence = AgendaBase & {
 		days?: WeekdaySlug[];
 	};
 };
+
+export type NewEventFormData = {
+	title: string;
+	dayMoment: DayMomentSlug;
+	category: CategorySlug;
+	startDate: string;
+	recurrence: {
+		type: RecurrenceTypeSlug;
+		interval?: number;
+		unit?: RecurrenceUnitSlug;
+		days: WeekdaySlug[] | [];
+	};
+};

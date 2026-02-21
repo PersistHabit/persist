@@ -1,0 +1,10 @@
+const TodaysController = () => import("#controllers/todays_controller");
+
+import router from "@adonisjs/core/services/router";
+import { middleware } from "#start/kernel";
+
+router
+	.group(() => {
+		router.get("/", [TodaysController, "index"]).as("today.index");
+	})
+	.use(middleware.auth());

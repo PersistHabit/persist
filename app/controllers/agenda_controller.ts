@@ -14,7 +14,7 @@ export default class AgendaController {
 
 		const events = await cache.getOrSet({
 			key: `agenda:events:${id}`,
-			ttl: "5m",
+			ttl: "15m",
 			tags: [`user:${id}`, "agenda:events"],
 			factory: async () => {
 				const eventList = await this.agendaService.listEvents(id);

@@ -7,6 +7,7 @@ import EmptyList from "@/components/empty-list";
 import PageHeader from "@/components/layout/page-header";
 import { useModal } from "@/components/modal/modal-context";
 import Button from "@/components/ui/button";
+import { toFormInitialData } from "@/utils/agenda";
 import AppLayout from "./_layout";
 
 type Props = {
@@ -29,7 +30,11 @@ const AgendaPage = ({ events }: Props) => {
 			title: "Modifier la tâche",
 			size: "lg",
 			content: (
-				<EventForm mode="update" eventId={event.id} initialData={event} />
+				<EventForm
+					mode="update"
+					eventId={event.id}
+					initialData={toFormInitialData(event)}
+				/>
 			),
 		});
 	};
