@@ -13,8 +13,8 @@ Elle permet de gérer ses routines, tâches, compteurs et un journal personnel, 
 
 ## 🧱 Stack technique
 
-- **Node.js** `24.13.0`
-- **pnpm** `10.29.1`
+- **Node.js** `24.13.1`
+- **pnpm** `10.30.1`
 - **AdonisJS**
 - **Docker / Docker Compose**
 - **PostgreSQL**
@@ -23,8 +23,8 @@ Elle permet de gérer ses routines, tâches, compteurs et un journal personnel, 
 
 ### 1. Prérequis
 
-- Node.js `24.13.0`
-- pnpm `10.29.1`
+- Node.js `24.13.1`
+- pnpm `10.30.1`
 - Docker & Docker Compose
 
 ### 2. Installation des dépendances
