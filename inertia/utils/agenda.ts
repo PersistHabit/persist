@@ -25,6 +25,7 @@ export function toFormInitialData(
 		dayMoment: ev.dayMoment,
 		category: ev.category,
 		startDate: ev.startDate.toISOString().slice(0, 10),
+		endDate: toDateInputValue(ev.endDate),
 		recurrence: {
 			type: ev.recurrence.type,
 			unit: ev.recurrence.unit,

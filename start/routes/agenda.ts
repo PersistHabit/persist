@@ -12,6 +12,12 @@ router
 		router
 			.delete("/:eventId", [AgendaController, "destroy"])
 			.as("agenda.destroy");
+		router
+			.post("/:eventId/pauses", [AgendaController, "storePause"])
+			.as("agenda.pauses.store");
+		router
+			.delete("/:eventId/pauses/:pauseId", [AgendaController, "destroyPause"])
+			.as("agenda.pauses.destroy");
 	})
 	.prefix("agenda")
 	.use(middleware.auth());

@@ -33,14 +33,14 @@ export const RecurrenceSchema = z
 
 		// custom => unit + interval requis
 		if (isCustom) {
-			if (recurrence.unit == null) {
+			if (recurrence.unit === null) {
 				ctx.addIssue({
 					path: ["unit"],
 					code: "custom",
 					message: "L’unité est requise quand la récurrence est personnalisée",
 				});
 			}
-			if (recurrence.interval == null) {
+			if (recurrence.interval === null) {
 				ctx.addIssue({
 					path: ["interval"],
 					code: "custom",
@@ -49,7 +49,7 @@ export const RecurrenceSchema = z
 				});
 			}
 		} else {
-			if (recurrence.unit != null) {
+			if (recurrence.unit !== null) {
 				ctx.addIssue({
 					path: ["unit"],
 					code: "custom",
@@ -57,7 +57,7 @@ export const RecurrenceSchema = z
 						"L’unité doit être vide sauf si la récurrence est personnalisée",
 				});
 			}
-			if (recurrence.interval != null) {
+			if (recurrence.interval !== null) {
 				ctx.addIssue({
 					path: ["interval"],
 					code: "custom",
@@ -104,12 +104,23 @@ export const RecurrenceSchema = z
 		}
 	});
 
-export const NewEventSchema = z.object({
+export const NewEventBaseSchema = z.object({
 	title: z.string().min(1, "Titre requis"),
 	dayMoment: z.enum(DayMomentRules),
 	category: z.enum(CategoryRules),
 	startDate: z.string(),
+	endDate: z.string().optional(),
 	recurrence: RecurrenceSchema,
+});
+
+export const NewEventSchema = NewEventBaseSchema.superRefine((data, ctx) => {
+	if (data.endDate && data.startDate && data.endDate < data.startDate) {
+		ctx.addIssue({
+			path: ["endDate"],
+			code: "custom",
+			message: "La date de fin doit être après la date de début",
+		});
+	}
 });
 
 export type NewEventInput = z.infer<typeof NewEventSchema>;

@@ -80,6 +80,11 @@ function occursOnDate(ev: AgendaItem, date: Date) {
 
 	if (day.getTime() < start.getTime()) return false;
 
+	if (ev.endDate) {
+		const end = parseDateOnly(ev.endDate);
+		if (day.getTime() > end.getTime()) return false;
+	}
+
 	switch (ev.recurrenceType) {
 		case "once":
 			return dateKey(day) === dateKey(start);
@@ -142,6 +147,9 @@ export function build14Days(
 						dayMoment: ev.dayMoment,
 						category: ev.category,
 						startDate: ev.startDate,
+						endDate: ev.endDate,
+						isPaused: ev.isPaused,
+						activePause: ev.activePause,
 						recurrence: {
 							type: ev.recurrenceType,
 							unit: ev.recurrenceUnit ? ev.recurrenceUnit : undefined,

@@ -251,6 +251,7 @@ export type EventPayload = {
 	dayMoment: DayMomentSlug;
 	category: CategorySlug;
 	startDate: Date;
+	endDate?: Date | null;
 	recurrence: {
 		type: RecurrenceTypeSlug;
 		unit?: RecurrenceUnitSlug;
@@ -265,6 +266,13 @@ type AgendaBase = {
 	dayMoment: DayMomentSlug;
 	category: CategorySlug;
 	startDate: Date;
+	endDate: string | null;
+};
+
+export type ActivePause = {
+	id: number;
+	startedAt: string;
+	endedAt: string | null;
 };
 
 export type AgendaItem = AgendaBase & {
@@ -272,6 +280,10 @@ export type AgendaItem = AgendaBase & {
 	recurrenceUnit?: RecurrenceUnitSlug;
 	recurrenceInterval?: number;
 	weekDays: number[];
+	isPaused: boolean;
+	activePause: ActivePause | null;
+	isCompleted: boolean;
+	completionId: number | null;
 };
 
 export type AgendaItemOccurrence = AgendaBase & {
@@ -281,6 +293,8 @@ export type AgendaItemOccurrence = AgendaBase & {
 		interval?: number;
 		days?: WeekdaySlug[];
 	};
+	isPaused: boolean;
+	activePause: ActivePause | null;
 };
 
 export type NewEventFormData = {
@@ -288,6 +302,7 @@ export type NewEventFormData = {
 	dayMoment: DayMomentSlug;
 	category: CategorySlug;
 	startDate: string;
+	endDate: string;
 	recurrence: {
 		type: RecurrenceTypeSlug;
 		interval?: number;

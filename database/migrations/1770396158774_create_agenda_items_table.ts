@@ -39,6 +39,7 @@ export default class extends BaseSchema {
 				.notNullable();
 
 			table.date("start_date").notNullable();
+			table.date("end_date").nullable().after("start_date");
 
 			table
 				.enum("recurrence_type", [...RecurrenceTypeRules], {
@@ -77,6 +78,12 @@ export default class extends BaseSchema {
 
 		this.schema.raw(`
 			ALTER TABLE agenda_items
+			ADD CONSTRAINT agenda_items_end_date_after_start_date
+			CHECK (end_date IS NULL OR end_date >= start_date);
+		`);
+
+		this.schema.raw(`
+			ALTER TABLE agenda_items
 			ADD CONSTRAINT agenda_items_week_days_only_for_weekly_or_custom
 			CHECK (
 				(week_days IS NULL)
@@ -101,6 +108,10 @@ export default class extends BaseSchema {
 		this.schema.raw(`
 			ALTER TABLE agenda_items
 			DROP CONSTRAINT IF EXISTS agenda_items_custom_requires_unit_interval;	
+		`);
+		this.schema.raw(`
+			ALTER TABLE agenda_items
+			DROP CONSTRAINT IF EXISTS agenda_items_end_date_after_start_date;
 		`);
 		this.schema.dropTable(this.tableName);
 		this.schema.raw(`DROP TYPE IF EXISTS agenda_day_moment;`);

@@ -13,6 +13,7 @@ import Input from "../ui/input";
 
 type NewEventRepeat = {
 	startDate: string;
+	endDate: string;
 
 	recurrence: {
 		type: RecurrenceTypeSlug;
@@ -174,6 +175,19 @@ const StepRepeat = ({ data, setData, errors, mode = "create" }: Props) => {
 						onChange={(v) => setData("recurrence.days", v)}
 					/>
 				)}
+
+			{data.recurrence.type !== "once" && (
+				<Input
+					id="endDate"
+					name="endDate"
+					type="date"
+					label="Date de fin (optionnel)"
+					value={data.endDate}
+					error={errors.endDate}
+					onChange={(e) => setData("endDate", e.target.value)}
+					min={data.startDate || undefined}
+				/>
+			)}
 		</>
 	);
 };

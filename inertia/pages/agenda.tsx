@@ -34,6 +34,7 @@ const AgendaPage = ({ events }: Props) => {
 					mode="update"
 					eventId={event.id}
 					initialData={toFormInitialData(event)}
+					activePause={event.activePause}
 				/>
 			),
 		});

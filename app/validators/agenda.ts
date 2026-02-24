@@ -12,6 +12,7 @@ const agendaEventSchema = vine.object({
 	dayMoment: vine.enum([...DayMomentRules]),
 	category: vine.enum([...CategoryRules]),
 	startDate: vine.date(),
+	endDate: vine.date().optional().nullable(),
 
 	recurrence: vine.object({
 		type: vine.enum([...RecurrenceTypeRules]),
@@ -39,3 +40,10 @@ const agendaEventSchema = vine.object({
 });
 
 export const agendaEventValidator = vine.compile(agendaEventSchema);
+
+const agendaPauseSchema = vine.object({
+	startedAt: vine.date(),
+	endedAt: vine.date().optional().nullable(),
+});
+
+export const agendaPauseValidator = vine.compile(agendaPauseSchema);
