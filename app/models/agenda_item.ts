@@ -1,5 +1,5 @@
-import { BaseModel, belongsTo, column } from "@adonisjs/lucid/orm";
-import type { BelongsTo } from "@adonisjs/lucid/types/relations";
+import { BaseModel, belongsTo, column, hasMany } from "@adonisjs/lucid/orm";
+import type { BelongsTo, HasMany } from "@adonisjs/lucid/types/relations";
 import type { DateTime } from "luxon";
 import type {
 	CategorySlug,
@@ -7,6 +7,8 @@ import type {
 	RecurrenceTypeSlug,
 	RecurrenceUnitSlug,
 } from "#types/agenda";
+import AgendaItemCompletion from "./agenda_item_completion.js";
+import AgendaItemPause from "./agenda_item_pause.js";
 import User from "./user.js";
 
 export default class AgendaItem extends BaseModel {
@@ -31,6 +33,9 @@ export default class AgendaItem extends BaseModel {
 	@column.date()
 	declare startDate: DateTime;
 
+	@column.date()
+	declare endDate: DateTime | null;
+
 	@column({ columnName: "recurrence_type" })
 	declare recurrenceType: RecurrenceTypeSlug;
 
@@ -47,6 +52,12 @@ export default class AgendaItem extends BaseModel {
 
 	@column({ columnName: "is_active" })
 	declare isActive: boolean;
+
+	@hasMany(() => AgendaItemPause)
+	declare pauses: HasMany<typeof AgendaItemPause>;
+
+	@hasMany(() => AgendaItemCompletion)
+	declare completions: HasMany<typeof AgendaItemCompletion>;
 
 	@column.dateTime({ autoCreate: true })
 	declare createdAt: DateTime;

@@ -1,5 +1,5 @@
-import type { FormError, PickerOption } from "@shared/types/form";
 import clsx from "clsx";
+import type { FormError, PickerOption } from "#types/form";
 
 type BaseProps<T extends string> = {
 	name: string;

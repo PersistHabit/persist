@@ -1,7 +1,7 @@
-import type { ButtonVariant } from "@shared/types/app";
 import { clsx } from "clsx";
 import { Loader } from "lucide-react";
 import type { ButtonHTMLAttributes } from "react";
+import type { ButtonVariant } from "#types/app";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 	icon?: React.ReactNode;

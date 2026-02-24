@@ -1,34 +1,15 @@
 import { router, useForm } from "@inertiajs/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Trash } from "lucide-react";
+import { Pause, Trash } from "lucide-react";
 import { useMemo, useState } from "react";
-import type {
-	CategorySlug,
-	DayMomentSlug,
-	RecurrenceTypeSlug,
-	RecurrenceUnitSlug,
-	WeekdaySlug,
-} from "#types/agenda";
+import type { ActivePause, NewEventFormData } from "#types/agenda";
 import Button from "@/components/ui/button";
-import { NewEventSchema } from "@/schemas/agenda.schema";
+import { NewEventBaseSchema, NewEventSchema } from "@/schemas/agenda.schema";
 import { toDateInputValue } from "@/utils/agenda";
 import { applyZodErrors } from "@/utils/schema";
 import { useModal } from "../modal/modal-context";
 import StepBasics from "./step-basis";
 import StepRepeat from "./step-repeat";
-
-type NewEventFormData = {
-	title: string;
-	dayMoment: DayMomentSlug;
-	category: CategorySlug;
-	startDate: string;
-	recurrence: {
-		type: RecurrenceTypeSlug;
-		interval?: number;
-		unit?: RecurrenceUnitSlug;
-		days: WeekdaySlug[];
-	};
-};
 
 type Step = 0 | 1;
 
@@ -38,14 +19,14 @@ const pageVariants = {
 	exit: (dir: number) => ({ opacity: 0, x: dir > 0 ? -18 : 18 }),
 };
 
-const Step0Schema = NewEventSchema.pick({
+const Step0Schema = NewEventBaseSchema.pick({
 	title: true,
 	dayMoment: true,
 	category: true,
 	startDate: true,
 });
 
-const Step1Schema = NewEventSchema.pick({
+const Step1Schema = NewEventBaseSchema.pick({
 	recurrence: true,
 });
 
@@ -58,6 +39,7 @@ type Props = {
 	mode?: "create" | "update";
 	eventId?: number;
 	initialData?: Partial<NewEventFormData>;
+	activePause?: ActivePause | null;
 };
 
 const defaultData: NewEventFormData = {
@@ -65,6 +47,7 @@ const defaultData: NewEventFormData = {
 	dayMoment: "morning",
 	category: "health",
 	startDate: "",
+	endDate: "",
 	recurrence: {
 		type: "once",
 		interval: undefined,
@@ -73,7 +56,12 @@ const defaultData: NewEventFormData = {
 	},
 };
 
-const EventForm = ({ mode = "create", initialData, eventId }: Props) => {
+const EventForm = ({
+	mode = "create",
+	initialData,
+	eventId,
+	activePause,
+}: Props) => {
 	const modal = useModal();
 	const [step, setStep] = useState<Step>(0);
 	const [dir, setDir] = useState(1);
@@ -165,6 +153,30 @@ const EventForm = ({ mode = "create", initialData, eventId }: Props) => {
 		}
 	};
 
+	const [pauseStartedAt, setPauseStartedAt] = useState(
+		new Date().toISOString().slice(0, 10),
+	);
+	const [pauseEndedAt, setPauseEndedAt] = useState("");
+	const [pauseProcessing, setPauseProcessing] = useState(false);
+
+	const handleStopPause = () => {
+		router.delete(`/agenda/${eventId}/pauses/${activePause?.id}`, {
+			onSuccess: () => modal.close(),
+		});
+	};
+
+	const handlePause = () => {
+		setPauseProcessing(true);
+		router.post(
+			`/agenda/${eventId}/pauses`,
+			{ startedAt: pauseStartedAt, endedAt: pauseEndedAt || null },
+			{
+				onSuccess: () => modal.close(),
+				onFinish: () => setPauseProcessing(false),
+			},
+		);
+	};
+
 	const handleDelete = async () => {
 		const confirm = await modal.confirm({
 			title: "Supprimer la tâche ?",
@@ -217,6 +229,58 @@ const EventForm = ({ mode = "create", initialData, eventId }: Props) => {
 					)}
 				</motion.div>
 			</AnimatePresence>
+
+			{mode === "update" && (
+				<div className="border-t border-border/40 pt-4 space-y-3">
+					<p className="text-sm font-semibold text-foreground/70 flex items-center gap-2">
+						<Pause size={14} />
+						{activePause ? "En pause" : "Mettre en pause"}
+					</p>
+					{activePause ? (
+						<>
+							<p className="text-sm text-muted-foreground">
+								Du {activePause.startedAt.split("-").reverse().join("/")}
+								{activePause.endedAt
+									? ` au ${activePause.endedAt.split("-").reverse().join("/")}`
+									: " (sans date de fin)"}
+							</p>
+							<Button
+								type="button"
+								variant="secondary"
+								onClick={handleStopPause}
+							>
+								Arrêter la pause
+							</Button>
+						</>
+					) : (
+						<>
+							<div className="flex gap-2">
+								<input
+									type="date"
+									value={pauseStartedAt}
+									onChange={(e) => setPauseStartedAt(e.target.value)}
+									className="flex-1 h-10 rounded-xl border border-border/50 bg-secondary/30 px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+								/>
+								<input
+									type="date"
+									value={pauseEndedAt}
+									min={pauseStartedAt}
+									onChange={(e) => setPauseEndedAt(e.target.value)}
+									className="flex-1 h-10 rounded-xl border border-border/50 bg-secondary/30 px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+								/>
+							</div>
+							<Button
+								type="button"
+								variant="secondary"
+								disabled={pauseProcessing || !pauseStartedAt}
+								onClick={handlePause}
+							>
+								Confirmer la pause
+							</Button>
+						</>
+					)}
+				</div>
+			)}
 
 			<div className="flex gap-3 justify-between pt-4">
 				<div className="flex gap-3">

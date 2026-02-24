@@ -29,8 +29,6 @@ export const RecurrenceSchema = z
 	})
 	.superRefine((recurrence, ctx) => {
 		const t = recurrence.type;
-
-		// ✅ RÈGLES "DB-like"
 		const isCustom = t === "custom";
 
 		// custom => unit + interval requis
@@ -51,7 +49,6 @@ export const RecurrenceSchema = z
 				});
 			}
 		} else {
-			// non-custom => unit + interval interdits
 			if (recurrence.unit !== null) {
 				ctx.addIssue({
 					path: ["unit"],
@@ -107,12 +104,23 @@ export const RecurrenceSchema = z
 		}
 	});
 
-export const NewEventSchema = z.object({
+export const NewEventBaseSchema = z.object({
 	title: z.string().min(1, "Titre requis"),
 	dayMoment: z.enum(DayMomentRules),
 	category: z.enum(CategoryRules),
 	startDate: z.string(),
+	endDate: z.string().optional(),
 	recurrence: RecurrenceSchema,
+});
+
+export const NewEventSchema = NewEventBaseSchema.superRefine((data, ctx) => {
+	if (data.endDate && data.startDate && data.endDate < data.startDate) {
+		ctx.addIssue({
+			path: ["endDate"],
+			code: "custom",
+			message: "La date de fin doit être après la date de début",
+		});
+	}
 });
 
 export type NewEventInput = z.infer<typeof NewEventSchema>;

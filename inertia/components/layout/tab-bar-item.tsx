@@ -1,6 +1,6 @@
 import { Link, usePage } from "@inertiajs/react";
 
-import type { NavItemProps } from "@shared/types/nav";
+import type { NavItemProps } from "#types/nav";
 
 const TabbarNavItem = ({ route }: NavItemProps) => {
 	const { url } = usePage();

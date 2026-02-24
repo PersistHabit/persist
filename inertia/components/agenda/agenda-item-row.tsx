@@ -8,7 +8,9 @@ type Props = {
 
 const AgendaItemRow = ({ event }: Props) => {
 	return (
-		<div className="py-3 border-border">
+		<div
+			className={`py-3 border-border transition-opacity${event.isPaused ? " opacity-40 grayscale" : ""}`}
+		>
 			<div className="flex items-center gap-3 min-w-0">
 				<CategoryBadge
 					categorySlug={event.category}
