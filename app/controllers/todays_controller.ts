@@ -6,23 +6,28 @@ import AgendaItem from "#models/agenda_item";
 import AgendaItemCompletion from "#models/agenda_item_completion";
 // biome-ignore lint/style/useImportType: IoC runtime needs this
 import { AgendaService } from "#services/agenda_service";
+// biome-ignore lint/style/useImportType: IoC runtime needs this
+import { JournalService } from "#services/journal_service";
 
 @inject()
 export default class TodaysController {
-	constructor(protected agendaService: AgendaService) {}
+	constructor(
+		protected agendaService: AgendaService,
+		protected journalService: JournalService,
+	) {}
 
 	async index({ auth, inertia }: HttpContext) {
 		const { id } = auth.getUserOrFail();
-		const items = await cache.getOrSet({
-			key: `today:events:${id}`,
-			ttl: "5m",
-			tags: [`user:${id}`, "today:events"],
-			factory: async () => {
-				const eventList = await this.agendaService.listTodayItems(id);
-				return eventList;
-			},
-		});
-		return inertia.render("today", { items });
+		const [items, journal] = await Promise.all([
+			cache.getOrSet({
+				key: `today:events:${id}`,
+				ttl: "5m",
+				tags: [`user:${id}`, "today:events"],
+				factory: async () => this.agendaService.listTodayItems(id),
+			}),
+			this.journalService.getToday(id),
+		]);
+		return inertia.render("today", { items, journal: journal ?? null });
 	}
 
 	async storeCompletion({ auth, params, request, response }: HttpContext) {

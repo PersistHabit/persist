@@ -1,7 +1,10 @@
 import { Head } from "@inertiajs/react";
-import { Leaf, Settings as SettingsIcon } from "lucide-react";
+import { Check, Leaf, Settings as SettingsIcon } from "lucide-react";
 import type { AgendaItem } from "#types/agenda";
 import { DayMomentRules, DayMoments } from "#types/agenda";
+import type { JournalEntry } from "#types/journal";
+import EmptyList from "@/components/empty-list";
+import JournalEditor from "@/components/journal/journal-editor";
 import PageHeader from "@/components/layout/page-header";
 import Settings from "@/components/layout/settings";
 import { useModal } from "@/components/modal/modal-context";
@@ -12,9 +15,10 @@ import AppLayout from "./_layout";
 
 type Props = {
 	items: AgendaItem[];
+	journal: JournalEntry | null;
 };
 
-const HomePage = ({ items }: Props) => {
+const HomePage = ({ items, journal }: Props) => {
 	const todayDate = new Date().toLocaleDateString("fr-FR", {
 		weekday: "long",
 		day: "numeric",
@@ -64,13 +68,36 @@ const HomePage = ({ items }: Props) => {
 				/>
 
 				<div className="flex-1 min-h-0 overflow-y-auto pb-28 p-4 space-y-4">
-					{groups.map(({ slug, moment, items: groupItems }) => (
-						<MomentCard key={slug} moment={moment}>
-							{groupItems.map((item) => {
-								return <TodayAgendaItem key={item.id} item={item} />;
-							})}
-						</MomentCard>
-					))}
+					{groups.length !== 0 ? (
+						<div className="space-y-2">
+							<h2 className="uppercase text-muted-foreground">
+								À faire aujourd'hui
+							</h2>
+							<div className="space-y-3">
+								{groups.map(({ slug, moment, items: groupItems }) => (
+									<MomentCard key={slug} moment={moment}>
+										{groupItems.map((item) => {
+											return <TodayAgendaItem key={item.id} item={item} />;
+										})}
+									</MomentCard>
+								))}
+							</div>
+						</div>
+					) : (
+						<div className="bg-card p-4 rounded-2xl border border-border">
+							<EmptyList
+								icon={Check}
+								label="Aucune tâche à faire aujourd'hui"
+							/>
+						</div>
+					)}
+					<div className="space-y-2">
+						<h2 className="uppercase text-muted-foreground">Journal</h2>
+						<JournalEditor
+							initialMood={journal?.mood}
+							initialContent={journal?.content ?? ""}
+						/>
+					</div>
 				</div>
 			</div>
 		</>
