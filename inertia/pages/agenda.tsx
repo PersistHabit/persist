@@ -61,7 +61,16 @@ const AgendaPage = ({ events }: Props) => {
 				{events.length > 0 ? (
 					<AgendaItemList events={events} openUpdateModal={openUpdateModal} />
 				) : (
-					<EmptyList icon={Calendar} label="Pas encore de routine" />
+					<div className="flex flex-col items-center justify-center">
+						<EmptyList icon={Calendar} label="Pas encore de routine" />
+						<Button
+							onClick={openCreateModal}
+							icon={<Plus size="18" />}
+							className="w-xs"
+						>
+							Créer ma première tâche
+						</Button>
+					</div>
 				)}
 			</div>
 		</>
