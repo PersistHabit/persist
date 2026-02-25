@@ -33,14 +33,14 @@ export const RecurrenceSchema = z
 
 		// custom => unit + interval requis
 		if (isCustom) {
-			if (recurrence.unit === null) {
+			if (recurrence.unit === undefined) {
 				ctx.addIssue({
 					path: ["unit"],
 					code: "custom",
 					message: "L’unité est requise quand la récurrence est personnalisée",
 				});
 			}
-			if (recurrence.interval === null) {
+			if (recurrence.interval === undefined) {
 				ctx.addIssue({
 					path: ["interval"],
 					code: "custom",
@@ -49,7 +49,7 @@ export const RecurrenceSchema = z
 				});
 			}
 		} else {
-			if (recurrence.unit !== null) {
+			if (recurrence.unit !== undefined) {
 				ctx.addIssue({
 					path: ["unit"],
 					code: "custom",
@@ -57,7 +57,7 @@ export const RecurrenceSchema = z
 						"L’unité doit être vide sauf si la récurrence est personnalisée",
 				});
 			}
-			if (recurrence.interval !== null) {
+			if (recurrence.interval !== undefined) {
 				ctx.addIssue({
 					path: ["interval"],
 					code: "custom",

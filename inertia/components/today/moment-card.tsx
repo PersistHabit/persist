@@ -13,7 +13,7 @@ type Props = PropsWithChildren & {
 const MomentCard = ({ moment, children }: Props) => {
 	const Icon = moment.icon;
 	return (
-		<section className="pt-4 px-4 pb-2 bg-card rounded-2xl">
+		<section className="pt-4 px-4 pb-2 bg-card rounded-2xl border border-border">
 			<div className="flex items-center gap-2">
 				<Icon size={14} className={moment.iconColor} />
 				<span
