@@ -10,7 +10,7 @@ const EmptyList = ({ icon, label }: Props) => {
 	return (
 		<section className="p-10 flex flex-col items-center justify-center gap-4">
 			<Icon size={48} className="text-muted-foreground" />
-			<p className="text-muted-foreground text-lg">{label}</p>
+			<p className="text-muted-foreground text-lg text-center">{label}</p>
 		</section>
 	);
 };

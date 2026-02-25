@@ -6,6 +6,7 @@ import { BaseModel, column, hasMany } from "@adonisjs/lucid/orm";
 import type { HasMany } from "@adonisjs/lucid/types/relations";
 import type { DateTime } from "luxon";
 import AgendaItem from "./agenda_item.js";
+import Journal from "./journal.js";
 
 const AuthFinder = withAuthFinder(() => hash.use("argon"), {
 	uids: ["email"],
@@ -36,6 +37,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
 	@hasMany(() => AgendaItem)
 	declare agendaItems: HasMany<typeof AgendaItem>;
+
+	@hasMany(() => Journal)
+	declare journals: HasMany<typeof Journal>;
 
 	static rememberMeTokens = DbRememberMeTokensProvider.forModel(User);
 }

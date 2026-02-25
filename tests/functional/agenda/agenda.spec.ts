@@ -154,7 +154,9 @@ test.group("POST /agenda", (group) => {
 
 		// Vine renvoie une redirection avec erreurs de validation
 		response.assertStatus(302);
-		const count = await AgendaItem.query().count("* as total");
+		const count = await AgendaItem.query()
+			.where("user_id", user.id)
+			.count("* as total");
 		assert.equal(Number(count[0].$extras.total), 0);
 	});
 
@@ -179,7 +181,9 @@ test.group("POST /agenda", (group) => {
 			.redirects(0);
 
 		response.assertStatus(302);
-		const count = await AgendaItem.query().count("* as total");
+		const count = await AgendaItem.query()
+			.where("user_id", user.id)
+			.count("* as total");
 		assert.equal(Number(count[0].$extras.total), 0);
 	});
 
