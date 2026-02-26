@@ -41,6 +41,14 @@ const JournalEditor = ({ initialMood, initialContent = "" }: Props) => {
 	};
 
 	useEffect(() => {
+		setContent(initialContent);
+	}, [initialContent]);
+
+	useEffect(() => {
+		if (initialMood) setMood(initialMood);
+	}, [initialMood]);
+
+	useEffect(() => {
 		return () => {
 			if (debounceRef.current) clearTimeout(debounceRef.current);
 		};

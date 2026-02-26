@@ -27,7 +27,10 @@ export default class TodaysController {
 			}),
 			this.journalService.getToday(id),
 		]);
-		return inertia.render("today", { items, journal: journal ?? null });
+		return inertia.render("today", {
+			items,
+			journal: journal?.serialize() ?? null,
+		});
 	}
 
 	async storeCompletion({ auth, params, request, response }: HttpContext) {

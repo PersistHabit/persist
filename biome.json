@@ -1,4 +1,13 @@
 {
+	"files": {
+		"includes": [
+			"**",
+			"!.adonisjs",
+			"!**/.adonisjs",
+			"!build",
+			"!database/schema.ts"
+		]
+	},
 	"linter": {
 		"rules": {
 			"suspicious": {
@@ -7,8 +16,7 @@
 			"correctness": {
 				"useHookAtTopLevel": "off"
 			}
-		},
-		"includes": ["**/*.js", "**/*.ts", "**/*.jsx", "**/*.tsx"]
+		}
 	},
 	"css": {
 		"parser": {

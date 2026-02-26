@@ -12,8 +12,10 @@ export class JournalService {
 	}
 
 	async getList(userId: number, page: number, perPage = 15) {
+		const today = DateTime.now().startOf("day").toISODate() ?? "";
 		return Journal.query()
 			.where("userId", userId)
+			.where("entryDate", "<", today)
 			.orderBy("entryDate", "desc")
 			.paginate(page, perPage);
 	}

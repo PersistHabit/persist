@@ -69,48 +69,69 @@ export default class extends BaseSeeder {
 			},
 		]);
 
-		await Journal.createMany([
-			{
+		const moods = ["great", "good", "neutral", "meh", "bad"] as const;
+		const contents = [
+			"Bonne semaine qui commence, j'ai réussi à méditer le matin sans me forcer.",
+			"Journée correcte mais un peu fatiguée. Lecture le soir m'a aidé à décompresser.",
+			"Super séance de sport ce matin ! Je me sens vraiment bien après. Repas sain à midi aussi.",
+			"Difficile de me concentrer aujourd'hui. J'ai quand même fait ma méditation.",
+			"La journée était pas mal, rien de particulier à noter.",
+			"Journée difficile, beaucoup de stress. J'ai manqué ma session de sport.",
+			"Très bonne journée, j'étais dans un état de flow pendant plusieurs heures.",
+			"Réveil compliqué mais la méditation a tout changé. Belle fin de journée.",
+			"Réussi à tenir mes habitudes malgré un planning chargé. Fierté.",
+			"Grosse fatigue accumulée, il faut que je dorme plus.",
+			"Lecture inspirante ce soir, plein de nouvelles idées.",
+			"Sport intense, je suis épuisé mais satisfait.",
+			"Journée calme et productive, exactement ce qu'il me fallait.",
+			"Un peu d'anxiété ce matin, la méditation a beaucoup aidé.",
+			"Belle connexion avec mes proches aujourd'hui.",
+			"Trop de temps sur les écrans, il faut que je rééquilibre.",
+			"Excellent repas fait maison, je prends soin de moi.",
+			"Matinée en plein air, ça ressource vraiment.",
+			"Difficulté à me lever mais une fois lancé, super journée.",
+			"Méditation de 20 minutes ce matin, je me sens ancré.",
+			"Journée mitigée, quelques tensions au travail.",
+			"Soir calme avec un bon livre, parfait pour recharger.",
+			"Séance de sport courte mais efficace, 30 minutes suffisent.",
+			"Journée riche en émotions, beaucoup de gratitude ce soir.",
+			"Moins bien aujourd'hui, besoin de repos.",
+			"Nouvelle routine testée ce matin, prometteuse.",
+			"Bonne humeur contagieuse toute la journée.",
+			"Trop de choses en tête, difficile de lâcher prise.",
+			"Petit déjeuner sain et méditation : combo gagnant.",
+			"Journée de travail intense, mais les habitudes tenues.",
+			"Magnifique coucher de soleil, moment de pleine conscience.",
+			"Repas préparé avec soin, je mange mieux depuis quelques semaines.",
+			"Sport dehors pour la première fois de la semaine, quelle différence !",
+			"Soir paisible, je prends le temps de réfléchir.",
+			"Quelques doutes mais je reste sur le chemin.",
+			"Journée ensoleillée, humeur au beau fixe.",
+			"Sommeil de qualité, tout est plus facile aujourd'hui.",
+			"Moment de gratitude le soir, pratique que j'adopte.",
+			"Journée avec des hauts et des bas, c'est la vie.",
+			"Belle progression sur mes habitudes ce mois-ci.",
+			"Pris du temps pour moi, c'était nécessaire.",
+			"Petite victoire du jour : n'ai pas cédé au grignotage.",
+			"Longue marche ce soir, pensées clarifiées.",
+			"Musique et lecture, soirée idéale.",
+			"Fatigue mais satisfaction d'avoir honoré mes engagements.",
+			"Journée sociale riche, plein d'énergie positive.",
+			"Retour aux bases : eau, sommeil, mouvement.",
+			"Bilan de la semaine positif, continuons.",
+			"Nouvelle semaine qui commence bien, optimisme de mise.",
+			"Réflexion du soir : je progresse doucement mais sûrement.",
+		];
+
+		await Journal.createMany(
+			Array.from({ length: 50 }, (_, i) => ({
 				userId: user.id,
-				entryDate: DateTime.now().minus({ days: 6 }).startOf("day"),
-				mood: "good",
-				content:
-					"Bonne semaine qui commence, j'ai réussi à méditer le matin sans me forcer.",
-			},
-			{
-				userId: user.id,
-				entryDate: DateTime.now().minus({ days: 5 }).startOf("day"),
-				mood: "neutral",
-				content:
-					"Journée correcte mais un peu fatiguée. Lecture le soir m'a aidé à décompresser.",
-			},
-			{
-				userId: user.id,
-				entryDate: DateTime.now().minus({ days: 4 }).startOf("day"),
-				mood: "great",
-				content:
-					"Super séance de sport ce matin ! Je me sens vraiment bien après. Repas sain à midi aussi.",
-			},
-			{
-				userId: user.id,
-				entryDate: DateTime.now().minus({ days: 3 }).startOf("day"),
-				mood: "meh",
-				content:
-					"Difficile de me concentrer aujourd'hui. J'ai quand même fait ma méditation.",
-			},
-			{
-				userId: user.id,
-				entryDate: DateTime.now().minus({ days: 2 }).startOf("day"),
-				mood: "good",
-				content: "La journée était pas mal",
-			},
-			{
-				userId: user.id,
-				entryDate: DateTime.now().minus({ days: 1 }).startOf("day"),
-				mood: "bad",
-				content:
-					"Journée difficile, beaucoup de stress. J'ai manqué ma session de sport.",
-			},
-		]);
+				entryDate: DateTime.now()
+					.minus({ days: i + 1 })
+					.startOf("day"),
+				mood: moods[i % moods.length],
+				content: contents[i % contents.length],
+			})),
+		);
 	}
 }

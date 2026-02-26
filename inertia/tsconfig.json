@@ -5,7 +5,8 @@
 		"module": "ESNext",
 		"jsx": "react-jsx",
 		"paths": {
-			"@/*": ["./*"]
+			"@/*": ["./*"],
+			"#tuyau": ["../.adonisjs/client/registry/index.ts"]
 		}
 	},
 	"include": ["./**/*.ts", "./**/*.tsx"]

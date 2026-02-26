@@ -1,4 +1,4 @@
-import type { PickerOptionTextOnly, PickerOptionWithIcon } from "types/form.js";
+import type { PickerOptionTextOnly, PickerOptionWithIcon } from "./form.js";
 
 export type DayMomentSlug = (typeof DayMomentRules)[number];
 export type CategorySlug = (typeof CategoryRules)[number];

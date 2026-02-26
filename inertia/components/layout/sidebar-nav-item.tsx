@@ -1,4 +1,5 @@
-import { Link, usePage } from "@inertiajs/react";
+import { Link } from "@adonisjs/inertia/react";
+import { usePage } from "@inertiajs/react";
 import type { NavItemProps } from "#types/nav";
 
 const SidebarNavItem = ({ route }: NavItemProps) => {

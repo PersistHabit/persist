@@ -1,20 +1,19 @@
-const TodaysController = () => import("#controllers/todays_controller");
-
 import router from "@adonisjs/core/services/router";
+import { controllers } from "#generated/controllers";
 import { middleware } from "#start/kernel";
 
 router
 	.group(() => {
-		router.get("/", [TodaysController, "index"]).as("today.index");
+		router.get("/", [controllers.Todays, "index"]).as("today.index");
 		router
 			.post("/agenda-items/:itemId/completions", [
-				TodaysController,
+				controllers.Todays,
 				"storeCompletion",
 			])
 			.as("today.completions.store");
 		router
 			.delete("/agenda-items/:itemId/completions/:completionId", [
-				TodaysController,
+				controllers.Todays,
 				"destroyCompletion",
 			])
 			.as("today.completions.destroy");

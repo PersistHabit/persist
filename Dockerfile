@@ -1,10 +1,10 @@
 # -------------------------
 # Base build image
 # -------------------------
-FROM node:24.13.1-bookworm AS base
+FROM node:24.14.0-bookworm AS base
 WORKDIR /app
 
-RUN corepack enable && corepack prepare pnpm@10.30.1 --activate
+RUN corepack enable && corepack prepare pnpm@10.30.3 --activate
 
 # -------------------------
 # Dependencies (all)
@@ -33,7 +33,7 @@ RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
 # -------------------------
 # Runtime (production)
 # -------------------------
-FROM node:24.13.1-bookworm-slim AS production
+FROM node:24.14.0-bookworm-slim AS production
 ENV NODE_ENV=production
 WORKDIR /app
 

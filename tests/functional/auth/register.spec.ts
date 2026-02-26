@@ -22,7 +22,10 @@ test.group("Auth register", (group) => {
 		response.assertHeader("location", "/login");
 	});
 
-	test("register fails when email already exists", async ({ client }) => {
+	test("register fails when email already exists", async ({
+		client,
+		assert,
+	}) => {
 		await User.create({
 			fullName: "Existing User",
 			email: "john.doe@example.com",
@@ -40,7 +43,11 @@ test.group("Auth register", (group) => {
 				password_confirmation: "Password123!",
 			});
 
-		response.assertHasValidationError("email");
 		response.assertStatus(302);
+		const inputErrors = response.flashMessage("inputErrorsBag") as Record<
+			string,
+			string[]
+		>;
+		assert.property(inputErrors, "email");
 	});
 });
