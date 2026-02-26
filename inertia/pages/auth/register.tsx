@@ -1,4 +1,5 @@
-import { Form, Head, Link } from "@inertiajs/react";
+import { Form, Link } from "@adonisjs/inertia/react";
+import { Head } from "@inertiajs/react";
 import Button from "@/components/ui/button";
 import Card from "@/components/ui/card";
 import Input from "@/components/ui/input";
@@ -18,7 +19,13 @@ const RegisterPage = () => {
 					</p>
 				</div>
 				<Form className="space-y-4" method="POST" action="/auth/register">
-					{({ errors, processing }) => (
+					{({
+						errors,
+						processing,
+					}: {
+						errors: Record<string, string>;
+						processing: boolean;
+					}) => (
 						<>
 							<Input
 								label="Nom complet"

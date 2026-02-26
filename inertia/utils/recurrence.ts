@@ -1,5 +1,5 @@
 import type { AgendaItem, AgendaItemOccurrence } from "#types/agenda";
-import { numberToDaysMap } from "../../app/helpers/agenda";
+import { NumberToWeekdayMap } from "#types/agenda";
 
 type Occurrence = {
 	key: string;
@@ -156,7 +156,9 @@ export function build14Days(
 							interval: ev.recurrenceInterval
 								? ev.recurrenceInterval
 								: undefined,
-							days: ev.weekDays ? numberToDaysMap(ev.weekDays) : [],
+							days: ev.weekDays
+								? ev.weekDays.map((d) => NumberToWeekdayMap[d])
+								: [],
 						},
 					},
 				});

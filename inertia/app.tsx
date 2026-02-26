@@ -1,12 +1,14 @@
-/// <reference path="../../adonisrc.ts" />
-/// <reference path="../../config/inertia.ts" />
+/// <reference path="../adonisrc.ts" />
+/// <reference path="../config/inertia.ts" />
 
 import { applyThemeMode, getThemeMode } from "@/utils/theme";
-import "../css/app.css";
-import "../css/global.css";
+import "./css/app.css";
+import "./css/global.css";
 import { resolvePageComponent } from "@adonisjs/inertia/helpers";
+import { TuyauProvider } from "@adonisjs/inertia/react";
 import { createInertiaApp } from "@inertiajs/react";
 import { createRoot } from "react-dom/client";
+import { tuyau } from "./utils/tuyau";
 
 const mode = getThemeMode();
 applyThemeMode(mode);
@@ -27,12 +29,16 @@ createInertiaApp({
 
 	resolve: (name) => {
 		return resolvePageComponent(
-			`../pages/${name}.tsx`,
-			import.meta.glob("../pages/**/*.tsx"),
+			`./pages/${name}.tsx`,
+			import.meta.glob("./pages/**/*.tsx"),
 		);
 	},
 
 	setup({ el, App, props }) {
-		createRoot(el).render(<App {...props} />);
+		createRoot(el).render(
+			<TuyauProvider client={tuyau}>
+				<App {...props} />
+			</TuyauProvider>,
+		);
 	},
 });

@@ -1,0 +1,37 @@
+/* eslint-disable prettier/prettier */
+import type { routes } from './index.ts'
+
+export interface ApiDefinition {
+  agenda: {
+    index: typeof routes['agenda.index']
+    store: typeof routes['agenda.store']
+    update: typeof routes['agenda.update']
+    destroy: typeof routes['agenda.destroy']
+    pauses: {
+      store: typeof routes['agenda.pauses.store']
+      destroy: typeof routes['agenda.pauses.destroy']
+    }
+  }
+  today: {
+    index: typeof routes['today.index']
+    completions: {
+      store: typeof routes['today.completions.store']
+      destroy: typeof routes['today.completions.destroy']
+    }
+  }
+  journal: {
+    index: typeof routes['journal.index']
+    store: typeof routes['journal.store']
+  }
+  page: {
+    login: typeof routes['page.login']
+    register: typeof routes['page.register']
+  }
+  auth: {
+    login: typeof routes['auth.login']
+    register: typeof routes['auth.register']
+  }
+  session: {
+    logout: typeof routes['session.logout']
+  }
+}

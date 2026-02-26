@@ -79,7 +79,7 @@ test.group("JournalService.getList", (group) => {
 		assert.lengthOf(result.all(), 0);
 	});
 
-	test("retourne les entrées triées par date décroissante", async ({
+	test("retourne les entrées triées par date décroissante (sans aujourd'hui)", async ({
 		assert,
 	}) => {
 		const user = await createUser();
@@ -98,10 +98,9 @@ test.group("JournalService.getList", (group) => {
 
 		const result = await service.getList(user.id, 1);
 		const entries = result.all();
-		assert.lengthOf(entries, 3);
-		assert.equal(entries[0].mood, "great");
-		assert.equal(entries[1].mood, "neutral");
-		assert.equal(entries[2].mood, "bad");
+		assert.lengthOf(entries, 2);
+		assert.equal(entries[0].mood, "neutral");
+		assert.equal(entries[1].mood, "bad");
 	});
 
 	test("ne retourne pas les entrées d'un autre utilisateur", async ({

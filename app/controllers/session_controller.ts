@@ -17,7 +17,7 @@ export default class SessionController {
 	async register({ request, response }: HttpContext) {
 		const payload = await request.validateUsing(registerValidator);
 		await this.sessionService.register(payload);
-		return response.redirect().toRoute("page.login");
+		return response.redirect().toPath("/login");
 	}
 
 	async logout(ctx: HttpContext) {
