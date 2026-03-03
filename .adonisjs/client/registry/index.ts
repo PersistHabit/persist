@@ -72,6 +72,48 @@ const routes = {
     tokens: [{"old":"/journal","type":0,"val":"journal","end":""}],
     types: placeholder as Registry['journal.store']['types'],
   },
+  'counters.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/counters',
+    tokens: [{"old":"/counters","type":0,"val":"counters","end":""}],
+    types: placeholder as Registry['counters.index']['types'],
+  },
+  'counters.store': {
+    methods: ["POST"],
+    pattern: '/counters',
+    tokens: [{"old":"/counters","type":0,"val":"counters","end":""}],
+    types: placeholder as Registry['counters.store']['types'],
+  },
+  'counters.increment': {
+    methods: ["PATCH"],
+    pattern: '/counters/:counterId/increment',
+    tokens: [{"old":"/counters/:counterId/increment","type":0,"val":"counters","end":""},{"old":"/counters/:counterId/increment","type":1,"val":"counterId","end":""},{"old":"/counters/:counterId/increment","type":0,"val":"increment","end":""}],
+    types: placeholder as Registry['counters.increment']['types'],
+  },
+  'counters.decrement': {
+    methods: ["PATCH"],
+    pattern: '/counters/:counterId/decrement',
+    tokens: [{"old":"/counters/:counterId/decrement","type":0,"val":"counters","end":""},{"old":"/counters/:counterId/decrement","type":1,"val":"counterId","end":""},{"old":"/counters/:counterId/decrement","type":0,"val":"decrement","end":""}],
+    types: placeholder as Registry['counters.decrement']['types'],
+  },
+  'counters.reset': {
+    methods: ["PATCH"],
+    pattern: '/counters/:counterId/reset',
+    tokens: [{"old":"/counters/:counterId/reset","type":0,"val":"counters","end":""},{"old":"/counters/:counterId/reset","type":1,"val":"counterId","end":""},{"old":"/counters/:counterId/reset","type":0,"val":"reset","end":""}],
+    types: placeholder as Registry['counters.reset']['types'],
+  },
+  'counters.update': {
+    methods: ["PUT"],
+    pattern: '/counters/:counterId',
+    tokens: [{"old":"/counters/:counterId","type":0,"val":"counters","end":""},{"old":"/counters/:counterId","type":1,"val":"counterId","end":""}],
+    types: placeholder as Registry['counters.update']['types'],
+  },
+  'counters.destroy': {
+    methods: ["DELETE"],
+    pattern: '/counters/:counterId',
+    tokens: [{"old":"/counters/:counterId","type":0,"val":"counters","end":""},{"old":"/counters/:counterId","type":1,"val":"counterId","end":""}],
+    types: placeholder as Registry['counters.destroy']['types'],
+  },
   'page.login': {
     methods: ["GET","HEAD"],
     pattern: '/login',

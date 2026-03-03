@@ -72,6 +72,35 @@ export class AgendaItemSchema extends BaseModel {
   declare updatedAt: DateTime
 }
 
+export class CounterSchema extends BaseModel {
+  static $columns = ['id', 'userId', 'pinned', 'title', 'direction', 'trigger', 'initialValue', 'value', 'color', 'createdAt', 'updatedAt', 'lastAppliedDate'] as const
+  $columns = CounterSchema.$columns
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare userId: number
+  @column()
+  declare pinned: boolean
+  @column()
+  declare title: string
+  @column()
+  declare direction: string
+  @column()
+  declare trigger: string
+  @column()
+  declare initialValue: number
+  @column()
+  declare value: number
+  @column()
+  declare color: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+  @column.date()
+  declare lastAppliedDate: DateTime | null
+}
+
 export class JournalSchema extends BaseModel {
   static $columns = ['id', 'userId', 'entryDate', 'mood', 'content', 'createdAt', 'updatedAt'] as const
   $columns = JournalSchema.$columns

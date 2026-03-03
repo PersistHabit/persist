@@ -27,6 +27,7 @@ export default [
 					allowed: [
 						"#types/agenda",
 						"#types/journal",
+						"#types/counter",
 						"#tuyau",
 						"../../package.json",
 					],

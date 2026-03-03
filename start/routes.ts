@@ -11,3 +11,4 @@ import "./routes/auth.js";
 import "./routes/agenda.js";
 import "./routes/today.js";
 import "./routes/journal.js";
+import "./routes/counter.ts";

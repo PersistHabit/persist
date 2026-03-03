@@ -5,6 +5,7 @@
 
 export const controllers = {
   Agenda: () => import('#controllers/agenda_controller'),
+  Counters: () => import('#controllers/counters_controller'),
   Journal: () => import('#controllers/journal_controller'),
   Session: () => import('#controllers/session_controller'),
   Todays: () => import('#controllers/todays_controller'),
