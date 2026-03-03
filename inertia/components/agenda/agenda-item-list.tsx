@@ -1,5 +1,11 @@
+import { useEffect, useState } from "react";
 import type { AgendaItem, AgendaItemOccurrence } from "#types/agenda";
-import { build14Days, normalizeEvents } from "@/utils/recurrence";
+import {
+	type AgendaView,
+	agendaViewDays,
+	getAgendaView,
+} from "@/utils/agenda_view";
+import { buildDays, normalizeEvents } from "@/utils/recurrence";
 import AgendaDay from "./agenda-day";
 import AgendaItemRow from "./agenda-item-row";
 
@@ -9,7 +15,23 @@ type Props = {
 };
 
 const AgendaItemList = ({ events, openUpdateModal }: Props) => {
-	const days = build14Days(normalizeEvents(events), new Date());
+	const [view, setView] = useState<AgendaView>("14days");
+
+	useEffect(() => {
+		setView(getAgendaView());
+
+		const onStorage = (e: StorageEvent) => {
+			if (e.key === "agenda-view") setView(getAgendaView());
+		};
+		window.addEventListener("storage", onStorage);
+		return () => window.removeEventListener("storage", onStorage);
+	}, []);
+
+	const days = buildDays(
+		normalizeEvents(events),
+		new Date(),
+		agendaViewDays(view),
+	);
 
 	return (
 		<div className="flex-1 min-h-0 overflow-y-auto pb-28">
