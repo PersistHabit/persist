@@ -1,11 +1,4 @@
-import {
-	BookOpen,
-	Calendar,
-	ChartArea,
-	Hash,
-	Leaf,
-	ShoppingBasket,
-} from "lucide-react";
+import { BookOpen, Calendar, Hash, Leaf, ShoppingBasket } from "lucide-react";
 import type { NavLinkRoute } from "#types/nav";
 
 export const routes: NavLinkRoute[] = [
@@ -39,10 +32,11 @@ export const routes: NavLinkRoute[] = [
 		route: "/shopping",
 		icon: ShoppingBasket,
 	},
-	{
-		label: "Habitudes",
-		subLabel: "Track your habits",
-		route: "/stats",
-		icon: ChartArea,
-	},
+	// Later the habits tracking route
+	// {
+	// 	label: "Habitudes",
+	// 	subLabel: "Track your habits",
+	// 	route: "/stats",
+	// 	icon: ChartArea,
+	// },
 ];
