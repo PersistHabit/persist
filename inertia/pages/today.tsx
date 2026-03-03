@@ -2,7 +2,9 @@ import { Head } from "@inertiajs/react";
 import { Check, Leaf, Settings as SettingsIcon } from "lucide-react";
 import type { AgendaItem } from "#types/agenda";
 import { DayMomentRules, DayMoments } from "#types/agenda";
+import type { Counter } from "#types/counter";
 import type { JournalEntry } from "#types/journal";
+import CounterCard from "@/components/counter/counter-card";
 import EmptyList from "@/components/empty-list";
 import JournalEditor from "@/components/journal/journal-editor";
 import PageHeader from "@/components/layout/page-header";
@@ -16,9 +18,10 @@ import AppLayout from "./_layout";
 type Props = {
 	items: AgendaItem[];
 	journal: JournalEntry | null;
+	counters: Counter[];
 };
 
-const HomePage = ({ items, journal }: Props) => {
+const HomePage = ({ items, journal, counters }: Props) => {
 	const todayDate = new Date().toLocaleDateString("fr-FR", {
 		weekday: "long",
 		day: "numeric",
@@ -68,6 +71,18 @@ const HomePage = ({ items, journal }: Props) => {
 				/>
 
 				<div className="flex-1 min-h-0 overflow-y-auto pb-28 p-4 space-y-4">
+					{counters.length !== 0 && (
+						<div className="space-y-2">
+							<h2 className="uppercase text-muted-foreground">
+								Compteurs épinglés
+							</h2>
+							<div className="flex gap-4 overflow-y-auto">
+								{counters.map((c) => (
+									<CounterCard key={c.id} counter={c} showEdit={false} />
+								))}
+							</div>
+						</div>
+					)}
 					{groups.length !== 0 ? (
 						<div className="space-y-2">
 							<h2 className="uppercase text-muted-foreground">

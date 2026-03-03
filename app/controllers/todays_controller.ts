@@ -7,6 +7,8 @@ import AgendaItemCompletion from "#models/agenda_item_completion";
 // biome-ignore lint/style/useImportType: IoC runtime needs this
 import { AgendaService } from "#services/agenda_service";
 // biome-ignore lint/style/useImportType: IoC runtime needs this
+import { CounterService } from "#services/counter_service";
+// biome-ignore lint/style/useImportType: IoC runtime needs this
 import { JournalService } from "#services/journal_service";
 
 @inject()
@@ -14,10 +16,13 @@ export default class TodaysController {
 	constructor(
 		protected agendaService: AgendaService,
 		protected journalService: JournalService,
+		protected counterService: CounterService,
 	) {}
 
 	async index({ auth, inertia }: HttpContext) {
 		const { id } = auth.getUserOrFail();
+		await this.counterService.applyDailyTicks(id);
+		const counters = await this.counterService.listPinned(id);
 		const [items, journal] = await Promise.all([
 			cache.getOrSet({
 				key: `today:events:${id}`,
@@ -30,6 +35,7 @@ export default class TodaysController {
 		return inertia.render("today", {
 			items,
 			journal: journal?.serialize() ?? null,
+			counters,
 		});
 	}
 
