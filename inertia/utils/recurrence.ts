@@ -23,6 +23,9 @@ export function formatRecurrence(ev: AgendaItemOccurrence) {
 		case "weekly":
 			return "Chaque semaine";
 
+		case "monthly":
+			return "Chaque mois";
+
 		case "custom":
 			if (ev.recurrence.interval && ev.recurrence.unit) {
 				return `Tous les ${ev.recurrence.interval} ${ev.recurrence.unit}s`;
@@ -96,6 +99,9 @@ function occursOnDate(ev: AgendaItem, date: Date) {
 			const allowed = ev.weekDays?.length ? ev.weekDays : [start.getDay()];
 			return allowed.includes(day.getDay());
 		}
+
+		case "monthly":
+			return day.getDate() === start.getDate();
 
 		case "custom": {
 			const interval = ev.recurrenceInterval ?? 1;
