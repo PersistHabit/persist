@@ -23,6 +23,15 @@ export interface ApiDefinition {
     index: typeof routes['journal.index']
     store: typeof routes['journal.store']
   }
+  counters: {
+    index: typeof routes['counters.index']
+    store: typeof routes['counters.store']
+    increment: typeof routes['counters.increment']
+    decrement: typeof routes['counters.decrement']
+    reset: typeof routes['counters.reset']
+    update: typeof routes['counters.update']
+    destroy: typeof routes['counters.destroy']
+  }
   page: {
     login: typeof routes['page.login']
     register: typeof routes['page.register']

@@ -128,6 +128,83 @@ export interface Registry {
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/journal_controller').default['store']>>>
     }
   }
+  'counters.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/counters'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/counters_controller').default['index']>>>
+    }
+  }
+  'counters.store': {
+    methods: ["POST"]
+    pattern: '/counters'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/counter').counterValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/counter').counterValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/counters_controller').default['store']>>>
+    }
+  }
+  'counters.increment': {
+    methods: ["PATCH"]
+    pattern: '/counters/:counterId/increment'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { counterId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/counters_controller').default['increment']>>>
+    }
+  }
+  'counters.decrement': {
+    methods: ["PATCH"]
+    pattern: '/counters/:counterId/decrement'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { counterId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/counters_controller').default['decrement']>>>
+    }
+  }
+  'counters.reset': {
+    methods: ["PATCH"]
+    pattern: '/counters/:counterId/reset'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { counterId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/counters_controller').default['reset']>>>
+    }
+  }
+  'counters.update': {
+    methods: ["PUT"]
+    pattern: '/counters/:counterId'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/counter').counterValidator)>>
+      paramsTuple: [ParamValue]
+      params: { counterId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/counter').counterValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/counters_controller').default['update']>>>
+    }
+  }
+  'counters.destroy': {
+    methods: ["DELETE"]
+    pattern: '/counters/:counterId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { counterId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/counters_controller').default['destroy']>>>
+    }
+  }
   'page.login': {
     methods: ["GET","HEAD"]
     pattern: '/login'

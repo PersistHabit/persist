@@ -1,4 +1,5 @@
 import type { Icon } from "#types/app";
+import type { CounterColorSlug } from "./counter.ts";
 
 export type TwClass = string;
 
@@ -24,3 +25,8 @@ export type PickerOption<T extends string> =
 	| PickerOptionTextOnly<T>;
 
 export type FormError = string;
+
+export type ColorPickerOption = {
+	slug: CounterColorSlug;
+	color: TwClass;
+};
