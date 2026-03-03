@@ -7,7 +7,7 @@ import {
 	WeekdayRules,
 } from "#types/agenda";
 
-const agendaEventSchema = vine.object({
+export const agendaEventValidator = vine.create({
 	title: vine.string().trim(),
 	dayMoment: vine.enum([...DayMomentRules]),
 	category: vine.enum([...CategoryRules]),
@@ -39,11 +39,7 @@ const agendaEventSchema = vine.object({
 	}),
 });
 
-export const agendaEventValidator = vine.compile(agendaEventSchema);
-
-const agendaPauseSchema = vine.object({
+export const agendaPauseValidator = vine.create({
 	startedAt: vine.date(),
 	endedAt: vine.date().optional().nullable(),
 });
-
-export const agendaPauseValidator = vine.compile(agendaPauseSchema);
