@@ -89,7 +89,9 @@ const Settings = () => {
 					COMPTE
 				</h4>
 				<div className="space-y-2">
-					<Button onClick={handleLogout}>Se déconnecter</Button>
+					<Button className="w-full" onClick={handleLogout}>
+						Se déconnecter
+					</Button>
 				</div>
 			</div>
 		</div>

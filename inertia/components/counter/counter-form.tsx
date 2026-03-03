@@ -167,9 +167,9 @@ const CounterForm = ({
 				checked={data.pinned}
 				onChange={(v) => setData("pinned", v)}
 			/>
-			<div className="flex gap-3 justify-between pt-4">
+			<div className="flex flex-col-reverse md:flex-row gap-3 justify-between pt-4">
 				{mode === "update" && (
-					<div className="flex gap-3">
+					<div className="flex gap-3 flex-col-reverse md:flex-row">
 						<Button
 							variant="danger"
 							icon={<Trash size={18} />}
@@ -187,7 +187,7 @@ const CounterForm = ({
 						</Button>
 					</div>
 				)}
-				<div className="flex gap-3">
+				<div className="flex gap-3 flex-col-reverse md:flex-row">
 					<Button
 						type="button"
 						disabled={processing}

@@ -1,4 +1,5 @@
 import { router } from "@inertiajs/react";
+import clsx from "clsx";
 import { MousePointerClick, Pencil } from "lucide-react";
 import { type Counter, CounterColors } from "#types/counter";
 import { useModal } from "../modal/modal-context";
@@ -76,14 +77,23 @@ const CounterCard = ({ counter, showEdit = true }: Props) => {
 			}
 		: {};
 
+	const isCompleted = counter.value === 0 && counter.direction === "decrement";
+
 	return (
 		<div
 			{...interactiveProps}
-			className={`group relative ${color} p-6 rounded-2xl space-y-2 select-none text-left min-w-36 max-w-xs ${isManual ? "cursor-pointer" : ""}`}
+			className={`group relative ${color} p-6 rounded-2xl space-y-2 select-none text-left min-w-36 max-w-xs ${isManual && !isCompleted ? "cursor-pointer" : ""}`}
 		>
-			<p className="text-3xl font-bold text-foreground">{counter.value}</p>
+			<p
+				className={clsx(
+					"text-3xl font-bold text-foreground",
+					isCompleted ? "line-through" : "",
+				)}
+			>
+				{counter.value}
+			</p>
 			<div className="text-foreground space-y-2">
-				<p>{counter.title}</p>
+				<p className={isCompleted ? "line-through" : ""}>{counter.title}</p>
 				<div className="flex gap-2">
 					<CounterTriggerBadge trigger={counter.trigger} />
 					{counter.trigger === "daily" && (

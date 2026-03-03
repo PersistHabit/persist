@@ -142,6 +142,9 @@ export class AgendaService {
 					return allowed.includes(todayWeekday);
 				}
 
+				case "monthly":
+					return start.day === today.day;
+
 				case "custom": {
 					const interval = item.recurrenceInterval ?? 1;
 					const startMonday = start.startOf("week");
