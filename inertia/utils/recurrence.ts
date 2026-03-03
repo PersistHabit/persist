@@ -130,54 +130,75 @@ const dayMomentOrder: Record<AgendaItem["dayMoment"], number> = {
 	evening: 2,
 };
 
-export function build14Days(
+function makeOccurrence(ev: AgendaItem, date: Date): Occurrence {
+	return {
+		key: `${dateKey(date)}-${ev.id}`,
+		date,
+		event: {
+			id: ev.id,
+			title: ev.title,
+			dayMoment: ev.dayMoment,
+			category: ev.category,
+			startDate: ev.startDate,
+			endDate: ev.endDate,
+			isPaused: ev.isPaused,
+			activePause: ev.activePause,
+			recurrence: {
+				type: ev.recurrenceType,
+				unit: ev.recurrenceUnit ? ev.recurrenceUnit : undefined,
+				interval: ev.recurrenceInterval ? ev.recurrenceInterval : undefined,
+				days: ev.weekDays ? ev.weekDays.map((d) => NumberToWeekdayMap[d]) : [],
+			},
+		},
+	};
+}
+
+export function buildDays(
 	events: AgendaItem[],
 	from = new Date(),
+	count = 15,
 ): DayBucket[] {
 	const start = startOfDay(from);
+	const windowEnd = addDays(start, count - 1);
 
-	const buckets: DayBucket[] = Array.from({ length: 15 }, (_, i) => ({
+	const buckets: DayBucket[] = Array.from({ length: count }, (_, i) => ({
 		date: addDays(start, i),
 		events: [],
 	}));
 
+	// Extra buckets for "once" events beyond the view window
+	const extraBuckets = new Map<string, DayBucket>();
+
 	for (const ev of events) {
 		for (const bucket of buckets) {
 			if (occursOnDate(ev, bucket.date)) {
-				bucket.events.push({
-					key: `${dateKey(bucket.date)}-${ev.id}`,
-					date: bucket.date,
-					event: {
-						id: ev.id,
-						title: ev.title,
-						dayMoment: ev.dayMoment,
-						category: ev.category,
-						startDate: ev.startDate,
-						endDate: ev.endDate,
-						isPaused: ev.isPaused,
-						activePause: ev.activePause,
-						recurrence: {
-							type: ev.recurrenceType,
-							unit: ev.recurrenceUnit ? ev.recurrenceUnit : undefined,
-							interval: ev.recurrenceInterval
-								? ev.recurrenceInterval
-								: undefined,
-							days: ev.weekDays
-								? ev.weekDays.map((d) => NumberToWeekdayMap[d])
-								: [],
-						},
-					},
-				});
+				bucket.events.push(makeOccurrence(ev, bucket.date));
+			}
+		}
+
+		if (ev.recurrenceType === "once") {
+			const evDay = startOfDay(ev.startDate);
+			if (evDay.getTime() > windowEnd.getTime()) {
+				const key = dateKey(evDay);
+				if (!extraBuckets.has(key)) {
+					extraBuckets.set(key, { date: evDay, events: [] });
+				}
+				const bucket = extraBuckets.get(key);
+				if (bucket) bucket.events.push(makeOccurrence(ev, evDay));
 			}
 		}
 	}
 
-	for (const bucket of buckets) {
+	const allBuckets = [...buckets, ...extraBuckets.values()].sort(
+		(a, b) => a.date.getTime() - b.date.getTime(),
+	);
+
+	for (const bucket of allBuckets) {
 		bucket.events.sort(
 			(a, b) =>
 				dayMomentOrder[a.event.dayMoment] - dayMomentOrder[b.event.dayMoment],
 		);
 	}
 
-	return buckets.filter((b) => b.events.length > 0);
+	return allBuckets.filter((b) => b.events.length > 0);
 }

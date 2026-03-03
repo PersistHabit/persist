@@ -7,9 +7,8 @@ import { daysToNumberMap } from "../helpers/agenda.js";
 export class AgendaService {
 	async listEvents(userId: number) {
 		const start = DateTime.now().startOf("day");
-		const end = start.plus({ days: 14 }).endOf("day");
-
 		const today = start.toFormat("yyyy-MM-dd");
+		const windowEnd = start.plus({ days: 31 }).toFormat("yyyy-MM-dd");
 
 		const items = await AgendaItem.query()
 			.where("user_id", userId)
@@ -23,16 +22,18 @@ export class AgendaService {
 				q.whereNull("end_date").orWhere("end_date", ">=", today);
 			})
 			.andWhere((q) => {
-				// 1) Ponctuels : start_date dans la fenêtre
+				// 1) Ponctuels à venir (sans borne supérieure)
 				q.where((qq) => {
-					qq.where("recurrence_type", "once") // <-- adapte à ton slug "ponctuel"
-						.whereBetween("start_date", [start.toSQL(), end.toSQL()]);
+					qq.where("recurrence_type", "once").where("start_date", ">=", today);
 				});
 
-				// 2) Récurrents : start_date <= end
+				// 2) Récurrents : start_date <= fin de la fenêtre (31 jours)
 				q.orWhere((qq) => {
-					qq.whereNot("recurrence_type", "once") // <-- adapte
-						.where("start_date", "<=", end.toSQL());
+					qq.whereNot("recurrence_type", "once").where(
+						"start_date",
+						"<=",
+						windowEnd,
+					);
 				});
 			})
 			.orderBy("start_date", "asc");
