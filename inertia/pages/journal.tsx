@@ -2,6 +2,7 @@ import { Head, router } from "@inertiajs/react";
 import { BookOpen } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { JournalListItem, JournalMeta } from "#types/journal";
+import EmptyList from "@/components/empty-list";
 import JournalEntryCard from "@/components/journal/journal-entry-card";
 import PageHeader from "@/components/layout/page-header";
 import AppLayout from "./_layout";
@@ -78,9 +79,7 @@ const JournalPage = ({ entries, meta }: Props) => {
 
 				<div className="flex-1 min-h-0 overflow-y-auto pb-28 p-4 space-y-2">
 					{allEntries.length === 0 ? (
-						<p className="text-center text-muted-foreground text-sm mt-8">
-							Aucune entrée dans ton journal.
-						</p>
+						<EmptyList label="Aucune entrée dans ton journal" icon={BookOpen} />
 					) : (
 						allEntries.map((entry) => (
 							<JournalEntryCard key={entry.id} {...entry} />
