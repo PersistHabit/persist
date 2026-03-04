@@ -33,4 +33,12 @@ export class JournalService {
 
 		await Journal.updateOrCreate({ userId, entryDate }, { mood, content });
 	}
+
+	async deleteJournal(userId: number, journalId: number) {
+		const journal = await Journal.query()
+			.where("user_id", userId)
+			.andWhere("id", journalId)
+			.firstOrFail();
+		await journal.delete();
+	}
 }

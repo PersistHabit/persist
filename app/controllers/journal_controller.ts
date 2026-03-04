@@ -28,4 +28,11 @@ export default class JournalController {
 		);
 		return response.redirect().back();
 	}
+
+	async destroy({ params, auth, response }: HttpContext) {
+		const { id } = auth.getUserOrFail();
+		const { journalId } = params;
+		await this.journalService.deleteJournal(id, journalId);
+		return response.redirect().back();
+	}
 }
