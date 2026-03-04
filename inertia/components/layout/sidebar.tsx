@@ -1,6 +1,5 @@
 import { Settings as SettingsIcon } from "lucide-react";
 import type { BarProps } from "#types/nav";
-import { version } from "@/app/version";
 import { useModal } from "../modal/modal-context";
 import Settings from "./settings";
 import SidebarNavItem from "./sidebar-nav-item";
@@ -38,9 +37,6 @@ const Sidebar = ({ routes }: BarProps) => {
 				<div>
 					<p className="text-xs text-muted-foreground text-center">
 						Stay consistent, stay calm ✨
-					</p>
-					<p className="text-center text-xs mt-2 text-muted-foreground">
-						v{version}
 					</p>
 				</div>
 			</div>
