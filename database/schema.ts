@@ -137,6 +137,27 @@ export class RememberMeTokenSchema extends BaseModel {
   declare updatedAt: DateTime
 }
 
+export class ShoppingSchema extends BaseModel {
+  static $columns = ['id', 'userId', 'name', 'category', 'pinned', 'done', 'createdAt', 'updatedAt'] as const
+  $columns = ShoppingSchema.$columns
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare userId: number
+  @column()
+  declare name: string
+  @column()
+  declare category: any
+  @column()
+  declare pinned: boolean
+  @column()
+  declare done: boolean
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
 export class UserSchema extends BaseModel {
   static $columns = ['id', 'fullName', 'email', 'password', 'deletedAt', 'createdAt', 'updatedAt'] as const
   $columns = UserSchema.$columns

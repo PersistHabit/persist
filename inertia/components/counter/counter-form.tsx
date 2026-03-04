@@ -72,9 +72,7 @@ const CounterForm = ({
 					reset();
 					modal.close();
 				},
-				onError: (e) => {
-					console.error(e);
-				},
+				onError: (e) => console.error(e),
 			});
 		} else {
 			put(`/counters/${counterId}`, {
@@ -83,9 +81,7 @@ const CounterForm = ({
 					reset();
 					modal.close();
 				},
-				onError: (e) => {
-					console.error(e);
-				},
+				onError: (e) => console.error(e),
 			});
 		}
 	};
@@ -106,9 +102,7 @@ const CounterForm = ({
 				reset();
 				modal.closeAll();
 			},
-			onError: (e) => {
-				console.error(e);
-			},
+			onError: (e) => console.error(e),
 		});
 	};
 

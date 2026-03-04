@@ -72,6 +72,12 @@ const routes = {
     tokens: [{"old":"/journal","type":0,"val":"journal","end":""}],
     types: placeholder as Registry['journal.store']['types'],
   },
+  'journal.destroy': {
+    methods: ["DELETE"],
+    pattern: '/journal/:journalId',
+    tokens: [{"old":"/journal/:journalId","type":0,"val":"journal","end":""},{"old":"/journal/:journalId","type":1,"val":"journalId","end":""}],
+    types: placeholder as Registry['journal.destroy']['types'],
+  },
   'counters.index': {
     methods: ["GET","HEAD"],
     pattern: '/counters',
@@ -113,6 +119,54 @@ const routes = {
     pattern: '/counters/:counterId',
     tokens: [{"old":"/counters/:counterId","type":0,"val":"counters","end":""},{"old":"/counters/:counterId","type":1,"val":"counterId","end":""}],
     types: placeholder as Registry['counters.destroy']['types'],
+  },
+  'shoppings.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/shopping',
+    tokens: [{"old":"/shopping","type":0,"val":"shopping","end":""}],
+    types: placeholder as Registry['shoppings.index']['types'],
+  },
+  'shoppings.store': {
+    methods: ["POST"],
+    pattern: '/shopping',
+    tokens: [{"old":"/shopping","type":0,"val":"shopping","end":""}],
+    types: placeholder as Registry['shoppings.store']['types'],
+  },
+  'shoppings.mark_as_done': {
+    methods: ["PATCH"],
+    pattern: '/shopping/:shoppingItemId/done',
+    tokens: [{"old":"/shopping/:shoppingItemId/done","type":0,"val":"shopping","end":""},{"old":"/shopping/:shoppingItemId/done","type":1,"val":"shoppingItemId","end":""},{"old":"/shopping/:shoppingItemId/done","type":0,"val":"done","end":""}],
+    types: placeholder as Registry['shoppings.mark_as_done']['types'],
+  },
+  'shoppings.mark_as_undone': {
+    methods: ["PATCH"],
+    pattern: '/shopping/:shoppingItemId/undone',
+    tokens: [{"old":"/shopping/:shoppingItemId/undone","type":0,"val":"shopping","end":""},{"old":"/shopping/:shoppingItemId/undone","type":1,"val":"shoppingItemId","end":""},{"old":"/shopping/:shoppingItemId/undone","type":0,"val":"undone","end":""}],
+    types: placeholder as Registry['shoppings.mark_as_undone']['types'],
+  },
+  'shoppings.pin': {
+    methods: ["PATCH"],
+    pattern: '/shopping/:shoppingItemId/pin',
+    tokens: [{"old":"/shopping/:shoppingItemId/pin","type":0,"val":"shopping","end":""},{"old":"/shopping/:shoppingItemId/pin","type":1,"val":"shoppingItemId","end":""},{"old":"/shopping/:shoppingItemId/pin","type":0,"val":"pin","end":""}],
+    types: placeholder as Registry['shoppings.pin']['types'],
+  },
+  'shoppings.un_pin': {
+    methods: ["PATCH"],
+    pattern: '/shopping/:shoppingItemId/unpin',
+    tokens: [{"old":"/shopping/:shoppingItemId/unpin","type":0,"val":"shopping","end":""},{"old":"/shopping/:shoppingItemId/unpin","type":1,"val":"shoppingItemId","end":""},{"old":"/shopping/:shoppingItemId/unpin","type":0,"val":"unpin","end":""}],
+    types: placeholder as Registry['shoppings.un_pin']['types'],
+  },
+  'shoppings.update': {
+    methods: ["PUT"],
+    pattern: '/shopping/:shoppingItemId',
+    tokens: [{"old":"/shopping/:shoppingItemId","type":0,"val":"shopping","end":""},{"old":"/shopping/:shoppingItemId","type":1,"val":"shoppingItemId","end":""}],
+    types: placeholder as Registry['shoppings.update']['types'],
+  },
+  'shoppings.destroy': {
+    methods: ["DELETE"],
+    pattern: '/shopping/:shoppingItemId',
+    tokens: [{"old":"/shopping/:shoppingItemId","type":0,"val":"shopping","end":""},{"old":"/shopping/:shoppingItemId","type":1,"val":"shoppingItemId","end":""}],
+    types: placeholder as Registry['shoppings.destroy']['types'],
   },
   'page.login': {
     methods: ["GET","HEAD"],

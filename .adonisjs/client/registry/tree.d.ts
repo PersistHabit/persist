@@ -22,6 +22,7 @@ export interface ApiDefinition {
   journal: {
     index: typeof routes['journal.index']
     store: typeof routes['journal.store']
+    destroy: typeof routes['journal.destroy']
   }
   counters: {
     index: typeof routes['counters.index']
@@ -31,6 +32,16 @@ export interface ApiDefinition {
     reset: typeof routes['counters.reset']
     update: typeof routes['counters.update']
     destroy: typeof routes['counters.destroy']
+  }
+  shoppings: {
+    index: typeof routes['shoppings.index']
+    store: typeof routes['shoppings.store']
+    markAsDone: typeof routes['shoppings.mark_as_done']
+    markAsUndone: typeof routes['shoppings.mark_as_undone']
+    pin: typeof routes['shoppings.pin']
+    unPin: typeof routes['shoppings.un_pin']
+    update: typeof routes['shoppings.update']
+    destroy: typeof routes['shoppings.destroy']
   }
   page: {
     login: typeof routes['page.login']
