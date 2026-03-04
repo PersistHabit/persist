@@ -3,6 +3,7 @@ import react from "eslint-plugin-react";
 import hooks from "eslint-plugin-react-hooks";
 
 export default [
+	{ ignores: ["database/schema.ts"] },
 	...configApp(),
 	{
 		rules: {
@@ -20,6 +21,19 @@ export default [
 			"hooks/rules-of-hooks": "error",
 			"hooks/exhaustive-deps": "warn",
 			"react/react-in-jsx-scope": "off",
+			"@adonisjs/no-backend-import-in-frontend": [
+				"error",
+				{
+					allowed: [
+						"#types/agenda",
+						"#types/journal",
+						"#types/counter",
+						"#types/shopping",
+						"#tuyau",
+						"../../package.json",
+					],
+				},
+			],
 		},
 	},
 ];

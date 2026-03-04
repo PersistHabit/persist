@@ -1,22 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title inertia>AdonisJS x Inertia x React</title>
+  <title inertia>Persist</title>
 
   <link rel="preconnect" href="https://fonts.bunny.net">
-  <link href="https://fonts.bunny.net/css?family=instrument-sans:400,400i,500,500i,600,600i,700,700i" rel="stylesheet" />
+  <link href="https://fonts.bunny.net/css?family=inter:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Persist" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable-status-bar-style" content="default" />
+  <meta name="theme-color" content="#46B9AA" />
+  <link rel="manifest" href="/site.webmanifest" />
 
   @stack('dumper')
   @viteReactRefresh()
   @inertiaHead()
-  @vite(['inertia/app/app.tsx', `inertia/pages/${page.component}.tsx`])
+  @vite(['inertia/app.tsx', `inertia/pages/${page.component}.tsx`])
 </head>
 
-<body class="min-h-screen w-screen font-sans">
+<body class="min-h-screen w-screen font-sans bg-background">
   @inertia()
 </body>
 

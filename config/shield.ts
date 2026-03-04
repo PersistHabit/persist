@@ -1,3 +1,4 @@
+import app from "@adonisjs/core/services/app";
 import { defineConfig } from "@adonisjs/shield";
 
 const shieldConfig = defineConfig({
@@ -35,7 +36,7 @@ const shieldConfig = defineConfig({
 	 * Force browser to always use HTTPS
 	 */
 	hsts: {
-		enabled: true,
+		enabled: app.inProduction,
 		maxAge: "180 days",
 	},
 
