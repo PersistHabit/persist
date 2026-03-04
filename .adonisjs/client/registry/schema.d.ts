@@ -128,6 +128,17 @@ export interface Registry {
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/journal_controller').default['store']>>>
     }
   }
+  'journal.destroy': {
+    methods: ["DELETE"]
+    pattern: '/journal/:journalId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { journalId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/journal_controller').default['destroy']>>>
+    }
+  }
   'counters.index': {
     methods: ["GET","HEAD"]
     pattern: '/counters'
@@ -203,6 +214,94 @@ export interface Registry {
       params: { counterId: ParamValue }
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/counters_controller').default['destroy']>>>
+    }
+  }
+  'shoppings.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/shopping'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/shoppings_controller').default['index']>>>
+    }
+  }
+  'shoppings.store': {
+    methods: ["POST"]
+    pattern: '/shopping'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/shopping').shoppingValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/shopping').shoppingValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/shoppings_controller').default['store']>>>
+    }
+  }
+  'shoppings.mark_as_done': {
+    methods: ["PATCH"]
+    pattern: '/shopping/:shoppingItemId/done'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { shoppingItemId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/shoppings_controller').default['markAsDone']>>>
+    }
+  }
+  'shoppings.mark_as_undone': {
+    methods: ["PATCH"]
+    pattern: '/shopping/:shoppingItemId/undone'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { shoppingItemId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/shoppings_controller').default['markAsUndone']>>>
+    }
+  }
+  'shoppings.pin': {
+    methods: ["PATCH"]
+    pattern: '/shopping/:shoppingItemId/pin'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { shoppingItemId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/shoppings_controller').default['pin']>>>
+    }
+  }
+  'shoppings.un_pin': {
+    methods: ["PATCH"]
+    pattern: '/shopping/:shoppingItemId/unpin'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { shoppingItemId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/shoppings_controller').default['unPin']>>>
+    }
+  }
+  'shoppings.update': {
+    methods: ["PUT"]
+    pattern: '/shopping/:shoppingItemId'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/shopping').shoppingValidator)>>
+      paramsTuple: [ParamValue]
+      params: { shoppingItemId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/shopping').shoppingValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/shoppings_controller').default['update']>>>
+    }
+  }
+  'shoppings.destroy': {
+    methods: ["DELETE"]
+    pattern: '/shopping/:shoppingItemId'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { shoppingItemId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/shoppings_controller').default['destroy']>>>
     }
   }
   'page.login': {

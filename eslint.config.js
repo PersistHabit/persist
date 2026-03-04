@@ -28,6 +28,7 @@ export default [
 						"#types/agenda",
 						"#types/journal",
 						"#types/counter",
+						"#types/shopping",
 						"#tuyau",
 						"../../package.json",
 					],

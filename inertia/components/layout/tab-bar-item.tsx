@@ -6,7 +6,7 @@ import type { NavItemProps } from "#types/nav";
 const TabbarNavItem = ({ route }: NavItemProps) => {
 	const { url } = usePage();
 
-	const isActive = url === route.route || url.startsWith(`${route.route}/`);
+	const isActive = url === route.route || url.startsWith(`${route.route}?`);
 
 	const Icon = route.icon;
 	return (

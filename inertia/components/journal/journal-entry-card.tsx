@@ -1,6 +1,8 @@
-import { ChevronDown } from "lucide-react";
+import { router } from "@inertiajs/react";
+import { ChevronDown, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { MOODS_MAP, type Mood } from "#types/journal";
+import { useModal } from "../modal/modal-context";
 
 const MOOD_LABELS: Record<Mood, string> = {
 	great: "Très bien",
@@ -47,16 +49,31 @@ type Props = {
 };
 
 const JournalEntryCard = ({
+	id,
 	mood,
 	content,
 	entryDate,
 	defaultExpanded = false,
 }: Props) => {
 	const [expanded, setExpanded] = useState(defaultExpanded);
-
+	const modal = useModal();
 	const moodData = MOODS_MAP[mood];
 	const dateLabel = getDateLabel(entryDate);
 	const fullDate = getFullDate(entryDate);
+
+	const handleDelete = async () => {
+		const confirm = await modal.confirm({
+			title: `Supprimer le journal du ${fullDate}`,
+			danger: true,
+			message: "Cette action est irréversible",
+			cancelText: "Annuler",
+			confirmText: "Confirmer",
+		});
+
+		if (!confirm) return;
+
+		router.delete(`/journal/${id}`);
+	};
 
 	return (
 		<div className="bg-card border border-border rounded-2xl overflow-hidden">
@@ -103,9 +120,18 @@ const JournalEntryCard = ({
 								{content}
 							</p>
 						)}
-						<p className="text-xs text-muted-foreground capitalize">
-							{fullDate}
-						</p>
+						<div className="flex items-center gap-4">
+							<button
+								type="button"
+								className="cursor-pointer transition p-2 hover:bg-muted rounded-xl text-destructive"
+								onClick={handleDelete}
+							>
+								<Trash2 size={18} />
+							</button>
+							<p className="text-xs text-muted-foreground capitalize">
+								{fullDate}
+							</p>
+						</div>
 					</div>
 				</div>
 			</div>

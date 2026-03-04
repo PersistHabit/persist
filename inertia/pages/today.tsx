@@ -1,15 +1,25 @@
 import { Head } from "@inertiajs/react";
-import { Check, Leaf, Settings as SettingsIcon } from "lucide-react";
+import {
+	BookOpen,
+	Check,
+	CheckCheck,
+	Hash,
+	Leaf,
+	Settings as SettingsIcon,
+	ShoppingCart,
+} from "lucide-react";
 import type { AgendaItem } from "#types/agenda";
 import { DayMomentRules, DayMoments } from "#types/agenda";
 import type { Counter } from "#types/counter";
 import type { JournalEntry } from "#types/journal";
+import type { ShoppingElement } from "#types/shopping";
 import CounterCard from "@/components/counter/counter-card";
 import EmptyList from "@/components/empty-list";
 import JournalEditor from "@/components/journal/journal-editor";
 import PageHeader from "@/components/layout/page-header";
 import Settings from "@/components/layout/settings";
 import { useModal } from "@/components/modal/modal-context";
+import ShoppingItemList from "@/components/shopping/shopping-item-list";
 import MomentCard from "@/components/today/moment-card";
 import TodayAgendaItem from "@/components/today/today-agenda-item";
 import Button from "@/components/ui/button";
@@ -19,9 +29,10 @@ type Props = {
 	items: AgendaItem[];
 	journal: JournalEntry | null;
 	counters: Counter[];
+	shoppingItems: ShoppingElement[];
 };
 
-const HomePage = ({ items, journal, counters }: Props) => {
+const HomePage = ({ items, journal, counters, shoppingItems }: Props) => {
 	const todayDate = new Date().toLocaleDateString("fr-FR", {
 		weekday: "long",
 		day: "numeric",
@@ -70,11 +81,11 @@ const HomePage = ({ items, journal, counters }: Props) => {
 					}
 				/>
 
-				<div className="flex-1 min-h-0 overflow-y-auto pb-28 p-4 space-y-4">
+				<div className="flex-1 min-h-0 overflow-y-auto pb-28 p-4 space-y-6">
 					{counters.length !== 0 && (
 						<div className="space-y-2">
-							<h2 className="uppercase text-muted-foreground">
-								Compteurs épinglés
+							<h2 className="uppercase text-muted-foreground flex items-center gap-2">
+								<Hash className="text-primary" size={18} /> Compteurs épinglés
 							</h2>
 							<div className="flex gap-4 overflow-y-auto">
 								{counters.map((c) => (
@@ -85,8 +96,9 @@ const HomePage = ({ items, journal, counters }: Props) => {
 					)}
 					{groups.length !== 0 ? (
 						<div className="space-y-2">
-							<h2 className="uppercase text-muted-foreground">
-								À faire aujourd'hui
+							<h2 className="uppercase text-muted-foreground flex items-center gap-2">
+								<CheckCheck className="text-primary" size={18} /> À faire
+								aujourd'hui
 							</h2>
 							<div className="space-y-3">
 								{groups.map(({ slug, moment, items: groupItems }) => (
@@ -106,8 +118,19 @@ const HomePage = ({ items, journal, counters }: Props) => {
 							/>
 						</div>
 					)}
+					{shoppingItems.length !== 0 && (
+						<div className="space-y-2">
+							<h2 className="uppercase text-muted-foreground flex items-center gap-2">
+								<ShoppingCart className="text-primary" size={18} /> Articles
+							</h2>
+							<ShoppingItemList items={shoppingItems} today={true} />
+						</div>
+					)}
+
 					<div className="space-y-2">
-						<h2 className="uppercase text-muted-foreground">Journal</h2>
+						<h2 className="uppercase text-muted-foreground flex items-center gap-2">
+							<BookOpen className="text-primary" size={18} /> Journal
+						</h2>
 						<JournalEditor
 							initialMood={journal?.mood}
 							initialContent={journal?.content ?? ""}
