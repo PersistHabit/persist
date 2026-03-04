@@ -1,6 +1,7 @@
 import { router } from "@inertiajs/react";
 import { Calendar, Moon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { version } from "@/app/version";
 import {
 	type AgendaView,
 	getAgendaView,
@@ -138,6 +139,7 @@ const Settings = () => {
 						Se déconnecter
 					</Button>
 				</div>
+				<p className="text-center text-xs text-muted-foreground">v{version}</p>
 			</div>
 		</div>
 	);
