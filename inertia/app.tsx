@@ -22,6 +22,10 @@ if (mode === "system") {
 
 const appName = import.meta.env.VITE_APP_NAME || "Persist";
 
+if ("serviceWorker" in navigator) {
+	navigator.serviceWorker.register("/sw.js");
+}
+
 createInertiaApp({
 	progress: { color: "#46B9AA" },
 
