@@ -29,6 +29,17 @@ services:
       timeout: 3s
       retries: 20
 
+  migrate:
+    image: ghcr.io/persist/persist:latest
+    container_name: persist-migrate
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    command: ["node", "ace", "migration:run", "--force"]
+    restart: "no"
+
   app:
     image: ghcr.io/persist/persist:latest
     container_name: persist-app
@@ -38,6 +49,8 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
     env_file:
       - .env
     ports:
