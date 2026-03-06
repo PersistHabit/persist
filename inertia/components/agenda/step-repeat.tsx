@@ -2,6 +2,7 @@ import type { InertiaFormProps } from "@inertiajs/react";
 import clsx from "clsx";
 import { useEffect, useMemo } from "react";
 import {
+	type DayMomentSlug,
 	type RecurrenceTypeSlug,
 	RecurrenceTypes,
 	type RecurrenceUnitSlug,
@@ -11,9 +12,17 @@ import {
 import Picker from "@/components/ui/picker";
 import Input from "../ui/input";
 
+const hourRanges: Record<DayMomentSlug, number[]> = {
+	morning: Array.from({ length: 13 }, (_, i) => i), // 0–12
+	afternoon: Array.from({ length: 5 }, (_, i) => i + 13), // 13–17
+	evening: Array.from({ length: 6 }, (_, i) => i + 18), // 18–23
+};
+
 type NewEventRepeat = {
+	dayMoment: DayMomentSlug;
 	startDate: string;
 	endDate: string;
+	startHour?: number | null;
 
 	recurrence: {
 		type: RecurrenceTypeSlug;
@@ -95,6 +104,8 @@ const StepRepeat = ({ data, setData, errors, mode = "create" }: Props) => {
 		});
 	};
 
+	const hours = hourRanges[data.dayMoment];
+
 	return (
 		<>
 			<Input
@@ -107,6 +118,35 @@ const StepRepeat = ({ data, setData, errors, mode = "create" }: Props) => {
 				onChange={(e) => setData("startDate", e.target.value)}
 				required
 			/>
+
+			<div className="flex flex-col gap-2 w-full">
+				<label
+					htmlFor="startHour"
+					className="font-semibold text-sm text-foreground/80"
+				>
+					Heure{" "}
+					<span className="font-normal text-muted-foreground">(optionnel)</span>
+				</label>
+				<select
+					id="startHour"
+					name="startHour"
+					value={data.startHour ?? ""}
+					onChange={(e) =>
+						setData(
+							"startHour",
+							e.target.value === "" ? null : Number(e.target.value),
+						)
+					}
+					className="flex w-full border px-3 py-2 text-sm h-12 bg-secondary/30 border-border/50 focus:border-primary/50 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+				>
+					<option value="">Sans heure précise</option>
+					{hours.map((h) => (
+						<option key={h} value={h}>
+							{String(h).padStart(2, "0")}h00
+						</option>
+					))}
+				</select>
+			</div>
 
 			<Picker<RecurrenceTypeSlug>
 				name="repeat"

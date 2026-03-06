@@ -13,6 +13,7 @@ export const agendaEventValidator = vine.create({
 	category: vine.enum([...CategoryRules]),
 	startDate: vine.date(),
 	endDate: vine.date().optional().nullable(),
+	startHour: vine.number().min(0).max(23).optional().nullable(),
 
 	recurrence: vine.object({
 		type: vine.enum([...RecurrenceTypeRules]),

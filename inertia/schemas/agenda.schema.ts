@@ -110,6 +110,7 @@ export const NewEventBaseSchema = z.object({
 	category: z.enum(CategoryRules),
 	startDate: z.string(),
 	endDate: z.string().optional(),
+	startHour: z.number().int().min(0).max(23).nullable().optional(),
 	recurrence: RecurrenceSchema,
 });
 
