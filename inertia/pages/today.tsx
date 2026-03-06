@@ -3,11 +3,14 @@ import {
 	BookOpen,
 	Check,
 	CheckCheck,
+	ChevronDown,
 	Hash,
 	Leaf,
+	PartyPopper,
 	Settings as SettingsIcon,
 	ShoppingCart,
 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import type { AgendaItem } from "#types/agenda";
 import { DayMomentRules, DayMoments } from "#types/agenda";
 import type { Counter } from "#types/counter";
@@ -20,6 +23,7 @@ import PageHeader from "@/components/layout/page-header";
 import Settings from "@/components/layout/settings";
 import { useModal } from "@/components/modal/modal-context";
 import ShoppingItemList from "@/components/shopping/shopping-item-list";
+import ConfettiCanvas from "@/components/today/confetti-canvas";
 import MomentCard from "@/components/today/moment-card";
 import TodayAgendaItem from "@/components/today/today-agenda-item";
 import Button from "@/components/ui/button";
@@ -57,10 +61,24 @@ const HomePage = ({ items, journal, counters, shoppingItems }: Props) => {
 
 	const completedCount = items.filter((item) => item.isCompleted).length;
 	const totalCount = items.length;
+	const allDone = totalCount > 0 && completedCount === totalCount;
+
 	const subtitle =
 		totalCount === 0
 			? "Aucune tâche aujourd'hui"
 			: `${completedCount}/${totalCount} tâche${totalCount > 1 ? "s" : ""} effectuée${totalCount > 1 ? "s" : ""}`;
+
+	const [celebrationOpen, setCelebrationOpen] = useState(allDone);
+	const prevAllDoneRef = useRef(allDone);
+
+	useEffect(() => {
+		if (allDone && !prevAllDoneRef.current) {
+			setCelebrationOpen(true);
+		} else if (!allDone) {
+			setCelebrationOpen(false);
+		}
+		prevAllDoneRef.current = allDone;
+	}, [allDone]);
 
 	return (
 		<>
@@ -118,6 +136,44 @@ const HomePage = ({ items, journal, counters, shoppingItems }: Props) => {
 							/>
 						</div>
 					)}
+
+					{allDone && (
+						<div className="rounded-2xl border border-primary/30 bg-primary/5 overflow-hidden">
+							<button
+								type="button"
+								className="w-full flex items-center justify-between px-4 py-3 cursor-pointer"
+								onClick={() => setCelebrationOpen((o) => !o)}
+							>
+								<span className="flex items-center gap-2 text-primary font-semibold text-sm uppercase tracking-wide">
+									<PartyPopper size={16} />
+									Toutes les tâches sont faites !
+								</span>
+								<ChevronDown
+									size={16}
+									className={`text-primary transition-transform duration-300 ${celebrationOpen ? "rotate-180" : ""}`}
+								/>
+							</button>
+
+							<div
+								className={`transition-all duration-500 ease-in-out ${celebrationOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"} overflow-hidden`}
+							>
+								<div className="relative flex flex-col items-center gap-2 pb-6 pt-2 overflow-hidden">
+									<ConfettiCanvas
+										active={celebrationOpen}
+										count={90}
+										spread={7}
+										width={400}
+										height={220}
+										className="absolute top-0 left-1/2 -translate-x-1/2"
+									/>
+									<p className="text-muted-foreground text-sm text-center relative z-10 px-4">
+										Bravo ! Tu as tout terminé pour aujourd'hui.
+									</p>
+								</div>
+							</div>
+						</div>
+					)}
+
 					{shoppingItems.length !== 0 && (
 						<div className="space-y-2">
 							<h2 className="uppercase text-muted-foreground flex items-center gap-2">
