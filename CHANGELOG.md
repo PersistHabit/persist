@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2026-03-06
+
+### Features
+
+- **Agenda** — Possibilité d'associer une heure à une tâche pour un tri chronologique dans la journée
+- **Compteurs** — Option de réinitialisation automatique des compteurs chaque jour
+- **Aujourd'hui** — Confettis lors de la complétion d'une tâche pour une meilleure expérience
+
+### Fixes
+
+- Affichage des erreurs de connexion sur la page de login
+- Correction du responsive sur le badge des compteurs
+- Icônes maskable PWA corrigées (192x192 et 512x512)
+
 ## [1.0.0] - 2026-03-04
 
 ### Features
