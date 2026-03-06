@@ -1,8 +1,16 @@
+import { errors as authErrors } from "@adonisjs/auth";
 import { ExceptionHandler, type HttpContext } from "@adonisjs/core/http";
 import { errors } from "@adonisjs/limiter";
 
 export default class HttpExceptionHandler extends ExceptionHandler {
 	async handle(error: unknown, ctx: HttpContext) {
+		if (error instanceof authErrors.E_INVALID_CREDENTIALS) {
+			if (ctx.request.header("x-inertia")) {
+				ctx.session.flash("inputErrorsBag", { E_INVALID_CREDENTIALS: error.message });
+				return ctx.response.redirect().back();
+			}
+		}
+
 		if (error instanceof errors.E_TOO_MANY_REQUESTS) {
 			const message = error.getResponseMessage(ctx);
 			const headers = error.getDefaultHeaders();
@@ -13,9 +21,7 @@ export default class HttpExceptionHandler extends ExceptionHandler {
 			}
 
 			if (ctx.request.header("x-inertia")) {
-				ctx.session.flashErrors({
-					E_TOO_MANY_REQUESTS: message,
-				});
+				ctx.session.flash("inputErrorsBag", { E_TOO_MANY_REQUESTS: message });
 				return ctx.response.redirect().back();
 			}
 
