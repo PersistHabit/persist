@@ -98,11 +98,11 @@ const CounterCard = ({ counter, showEdit = true }: Props) => {
 					<CounterTriggerBadge trigger={counter.trigger} />
 					{counter.trigger === "daily" && (
 						<button
-							className="bg-white/10 p-1 px-3 flex gap-2 items-center rounded-full w-fit cursor-pointer"
+							className="bg-white/10 px-3 flex gap-2 items-center rounded-full w-fit cursor-pointer"
 							type="button"
 							onClick={handleReset}
 						>
-							<p className="text-xs flex items-center gap-1">
+							<p className="flex items-center gap-1 text-[10px] lg:text-xs">
 								<MousePointerClick size={14} /> Réinitialiser
 							</p>
 						</button>
