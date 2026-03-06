@@ -75,7 +75,7 @@ export class AgendaItemSchema extends BaseModel {
 }
 
 export class CounterSchema extends BaseModel {
-  static $columns = ['id', 'userId', 'pinned', 'title', 'direction', 'trigger', 'initialValue', 'value', 'color', 'createdAt', 'updatedAt', 'lastAppliedDate'] as const
+  static $columns = ['id', 'userId', 'pinned', 'title', 'direction', 'trigger', 'initialValue', 'value', 'color', 'createdAt', 'updatedAt', 'lastAppliedDate', 'resetEachDay'] as const
   $columns = CounterSchema.$columns
   @column({ isPrimary: true })
   declare id: number
@@ -101,6 +101,8 @@ export class CounterSchema extends BaseModel {
   declare updatedAt: DateTime
   @column.date()
   declare lastAppliedDate: DateTime | null
+  @column()
+  declare resetEachDay: boolean
 }
 
 export class JournalSchema extends BaseModel {

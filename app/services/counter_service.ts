@@ -24,6 +24,7 @@ export class CounterService {
 			direction: payload.direction,
 			trigger: payload.trigger,
 			color: payload.color,
+			resetEachDay: payload.resetEachDay,
 		});
 	}
 
@@ -75,6 +76,25 @@ export class CounterService {
 			.andWhere("id", counterId)
 			.firstOrFail();
 		await counter.delete();
+	}
+
+	async resetDailyCounters(userId: number) {
+		const today = DateTime.now().startOf("day");
+		const counters = await Counter.query()
+			.where("user_id", userId)
+			.where("reset_each_day", true);
+
+		for (const counter of counters) {
+			const reference = counter.lastAppliedDate
+				? counter.lastAppliedDate.startOf("day")
+				: counter.createdAt.startOf("day");
+
+			if (today <= reference) continue;
+
+			counter.value = counter.initialValue;
+			counter.lastAppliedDate = today;
+			await counter.save();
+		}
 	}
 
 	async applyDailyTicks(userId: number) {
