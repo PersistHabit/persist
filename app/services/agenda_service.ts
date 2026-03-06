@@ -40,8 +40,9 @@ export class AgendaService {
 
 		return items.map((item) => {
 			const pause = item.pauses[0] ?? null;
+			const { ...serialized } = item.serialize();
 			return {
-				...item.serialize(),
+				...serialized,
 				isPaused: pause !== null,
 				activePause: pause
 					? {
@@ -73,6 +74,7 @@ export class AgendaService {
 			recurrenceUnit: payload.recurrence.unit,
 			recurrenceInterval: payload.recurrence.interval,
 			weekDays: daysMap,
+			startHour: payload.startHour ?? null,
 		});
 	}
 
@@ -99,6 +101,7 @@ export class AgendaService {
 			recurrenceUnit: payload.recurrence.unit,
 			recurrenceInterval: payload.recurrence.interval,
 			weekDays: daysMap,
+			startHour: payload.startHour ?? null,
 		});
 
 		await event.save();
@@ -168,8 +171,9 @@ export class AgendaService {
 		return todayItems.map((item) => {
 			const pause = item.pauses[0] ?? null;
 			const completion = item.completions[0] ?? null;
+			const { ...serialized } = item.serialize();
 			return {
-				...item.serialize(),
+				...serialized,
 				title: item.title,
 				isPaused: pause !== null,
 				activePause: pause

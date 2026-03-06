@@ -13,7 +13,9 @@ const CounterTriggerBadge = ({ trigger }: Props) => {
 			) : (
 				<MousePointerClick size={14} />
 			)}
-			<p className="text-xs">{trigger === "daily" ? "Chaque jour" : "Click"}</p>
+			<p className="text-[10px] lg:text-xs">
+				{trigger === "daily" ? "Jour" : "Click"}
+			</p>
 		</div>
 	);
 };

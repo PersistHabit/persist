@@ -252,6 +252,7 @@ export type EventPayload = {
 	category: CategorySlug;
 	startDate: Date;
 	endDate?: Date | null;
+	startHour?: number | null;
 	recurrence: {
 		type: RecurrenceTypeSlug;
 		unit?: RecurrenceUnitSlug;
@@ -267,6 +268,7 @@ type AgendaBase = {
 	category: CategorySlug;
 	startDate: Date;
 	endDate: string | null;
+	startHour: number | null;
 };
 
 export type ActivePause = {
@@ -303,6 +305,7 @@ export type NewEventFormData = {
 	category: CategorySlug;
 	startDate: string;
 	endDate: string;
+	startHour?: number | null;
 	recurrence: {
 		type: RecurrenceTypeSlug;
 		interval?: number;

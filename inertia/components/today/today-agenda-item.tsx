@@ -1,6 +1,8 @@
 import { router } from "@inertiajs/react";
+import { useState } from "react";
 import type { AgendaItem } from "#types/agenda";
 import CategoryBadge from "../agenda/category-badge";
+import ConfettiCanvas from "./confetti-canvas";
 
 type Props = {
 	item: AgendaItem;
@@ -9,8 +11,12 @@ type Props = {
 const todayStr = new Date().toISOString().slice(0, 10);
 
 const TodayAgendaItem = ({ item }: Props) => {
+	const [burst, setBurst] = useState(false);
+
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.checked) {
+			setBurst(true);
+			setTimeout(() => setBurst(false), 1000);
 			router.post(`/agenda-items/${item.id}/completions`, {
 				occurrence_date: todayStr,
 			});
@@ -23,8 +29,27 @@ const TodayAgendaItem = ({ item }: Props) => {
 
 	return (
 		<label
-			className={`py-3 flex items-center cursor-pointer gap-3${item.isPaused ? " opacity-40 grayscale" : ""}`}
+			className={`py-3 flex items-center cursor-pointer gap-3 relative${item.isPaused ? " opacity-40 grayscale" : ""}`}
 		>
+			{burst && (
+				<div
+					className="absolute pointer-events-none"
+					style={{
+						left: 8,
+						top: "50%",
+						transform: "translate(-50%, -50%)",
+						zIndex: 50,
+					}}
+				>
+					<ConfettiCanvas
+						active={burst}
+						count={22}
+						spread={4}
+						width={120}
+						height={120}
+					/>
+				</div>
+			)}
 			<input
 				name={`${item.id}-check`}
 				type="checkbox"

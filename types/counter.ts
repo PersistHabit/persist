@@ -104,6 +104,7 @@ export type NewCounterFormData = {
 	trigger: CounterTriggerSlug;
 	color: CounterColorSlug;
 	pinned: boolean;
+	resetEachDay: boolean;
 };
 
 export type CounterPayload = {
@@ -113,6 +114,7 @@ export type CounterPayload = {
 	direction: CounterDirectionSlug;
 	trigger: CounterTriggerSlug;
 	color: CounterColorSlug;
+	resetEachDay: boolean;
 };
 
 export type Counter = {
@@ -123,4 +125,5 @@ export type Counter = {
 	direction: CounterDirectionSlug;
 	trigger: CounterTriggerSlug;
 	color: CounterColorSlug;
+	resetEachDay: boolean;
 };

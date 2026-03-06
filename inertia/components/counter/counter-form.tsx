@@ -29,6 +29,7 @@ const defaultData: NewCounterFormData = {
 	trigger: "daily",
 	color: "streak-0",
 	pinned: false,
+	resetEachDay: false,
 };
 
 const CounterForm = ({
@@ -160,6 +161,11 @@ const CounterForm = ({
 				label="Épingler"
 				checked={data.pinned}
 				onChange={(v) => setData("pinned", v)}
+			/>
+			<Switch
+				label="Réinitialiser chaque jour"
+				checked={data.resetEachDay}
+				onChange={(v) => setData("resetEachDay", v)}
 			/>
 			<div className="flex flex-col-reverse md:flex-row gap-3 justify-between pt-4">
 				{mode === "update" && (

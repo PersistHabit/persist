@@ -13,6 +13,7 @@ export const CounterSchema = z
 		direction: z.enum(CounterDirectionRules),
 		trigger: z.enum(CounterTriggerRules),
 		color: z.enum(CounterColorRules),
+		resetEachDay: z.boolean(),
 	})
 	.superRefine((data, ctx) => {
 		if (data.direction === "decrement" && data.value === 0) {

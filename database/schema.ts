@@ -40,7 +40,7 @@ export class AgendaItemPauseSchema extends BaseModel {
 }
 
 export class AgendaItemSchema extends BaseModel {
-  static $columns = ['id', 'userId', 'title', 'dayMoment', 'category', 'startDate', 'endDate', 'recurrenceType', 'recurrenceUnit', 'recurrenceInterval', 'weekDays', 'isActive', 'createdAt', 'updatedAt'] as const
+  static $columns = ['id', 'userId', 'title', 'dayMoment', 'category', 'startDate', 'endDate', 'recurrenceType', 'recurrenceUnit', 'recurrenceInterval', 'weekDays', 'isActive', 'createdAt', 'updatedAt', 'startHour'] as const
   $columns = AgendaItemSchema.$columns
   @column({ isPrimary: true })
   declare id: number
@@ -70,10 +70,12 @@ export class AgendaItemSchema extends BaseModel {
   declare createdAt: DateTime
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+  @column()
+  declare startHour: number | null
 }
 
 export class CounterSchema extends BaseModel {
-  static $columns = ['id', 'userId', 'pinned', 'title', 'direction', 'trigger', 'initialValue', 'value', 'color', 'createdAt', 'updatedAt', 'lastAppliedDate'] as const
+  static $columns = ['id', 'userId', 'pinned', 'title', 'direction', 'trigger', 'initialValue', 'value', 'color', 'createdAt', 'updatedAt', 'lastAppliedDate', 'resetEachDay'] as const
   $columns = CounterSchema.$columns
   @column({ isPrimary: true })
   declare id: number
@@ -99,6 +101,8 @@ export class CounterSchema extends BaseModel {
   declare updatedAt: DateTime
   @column.date()
   declare lastAppliedDate: DateTime | null
+  @column()
+  declare resetEachDay: boolean
 }
 
 export class JournalSchema extends BaseModel {
