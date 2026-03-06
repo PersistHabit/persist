@@ -6,7 +6,9 @@ export default class HttpExceptionHandler extends ExceptionHandler {
 	async handle(error: unknown, ctx: HttpContext) {
 		if (error instanceof authErrors.E_INVALID_CREDENTIALS) {
 			if (ctx.request.header("x-inertia")) {
-				ctx.session.flash("inputErrorsBag", { E_INVALID_CREDENTIALS: error.message });
+				ctx.session.flash("inputErrorsBag", {
+					E_INVALID_CREDENTIALS: error.message,
+				});
 				return ctx.response.redirect().back();
 			}
 		}
