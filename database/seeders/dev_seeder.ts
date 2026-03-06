@@ -135,6 +135,7 @@ export default class extends BaseSeeder {
 				value: 3,
 				color: "streak-0",
 				lastAppliedDate: DateTime.now().startOf("day"),
+				resetEachDay: true,
 			},
 			{
 				userId: user.id,
@@ -146,6 +147,7 @@ export default class extends BaseSeeder {
 				value: 7,
 				color: "countdown-0",
 				lastAppliedDate: DateTime.now().startOf("day"),
+				resetEachDay: false,
 			},
 			{
 				userId: user.id,
@@ -157,6 +159,7 @@ export default class extends BaseSeeder {
 				value: 42,
 				color: "streak-1",
 				lastAppliedDate: DateTime.now().minus({ days: 1 }).startOf("day"),
+				resetEachDay: false,
 			},
 			{
 				userId: user.id,
@@ -168,6 +171,7 @@ export default class extends BaseSeeder {
 				value: 12,
 				color: "streak-2",
 				lastAppliedDate: DateTime.now().minus({ days: 2 }).startOf("day"),
+				resetEachDay: false,
 			},
 		]);
 

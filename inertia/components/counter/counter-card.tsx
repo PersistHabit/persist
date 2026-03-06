@@ -1,6 +1,6 @@
 import { router } from "@inertiajs/react";
 import clsx from "clsx";
-import { MousePointerClick, Pencil } from "lucide-react";
+import { MousePointerClick, Pencil, RefreshCcw } from "lucide-react";
 import { type Counter, CounterColors } from "#types/counter";
 import { useModal } from "../modal/modal-context";
 import CounterForm from "./counter-form";
@@ -106,6 +106,14 @@ const CounterCard = ({ counter, showEdit = true }: Props) => {
 								<MousePointerClick size={14} /> Réinitialiser
 							</p>
 						</button>
+					)}
+					{counter.resetEachDay && (
+						<span
+							title="Réinitialisation chaque jour"
+							className="bg-white/10 px-3 flex gap-2 items-center rounded-full w-fit"
+						>
+							<RefreshCcw size={14} />
+						</span>
 					)}
 				</div>
 				{showEdit && (

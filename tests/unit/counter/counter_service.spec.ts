@@ -226,6 +226,156 @@ test.group("CounterService.applyDailyTicks", (group) => {
 	});
 });
 
+test.group("CounterService.resetDailyCounters", (group) => {
+	group.each.setup(() => testUtils.db().withGlobalTransaction());
+
+	test("ne fait rien si resetEachDay est false", async ({ assert }) => {
+		const user = await createUser();
+		const counter = await createCounter(user.id, {
+			resetEachDay: false,
+			initialValue: 0,
+			value: 7,
+		});
+
+		counter.lastAppliedDate = DateTime.now().minus({ days: 1 }).startOf("day");
+		await counter.save();
+
+		await service.resetDailyCounters(user.id);
+
+		await counter.refresh();
+		assert.equal(counter.value, 7);
+	});
+
+	test("ne fait rien si déjà réinitialisé aujourd'hui", async ({ assert }) => {
+		const user = await createUser();
+		const counter = await createCounter(user.id, {
+			resetEachDay: true,
+			initialValue: 0,
+			value: 5,
+		});
+
+		counter.lastAppliedDate = DateTime.now().startOf("day");
+		await counter.save();
+
+		await service.resetDailyCounters(user.id);
+
+		await counter.refresh();
+		assert.equal(counter.value, 5);
+	});
+
+	test("réinitialise la valeur à initialValue", async ({ assert }) => {
+		const user = await createUser();
+		const counter = await createCounter(user.id, {
+			resetEachDay: true,
+			initialValue: 3,
+			value: 9,
+		});
+
+		counter.lastAppliedDate = DateTime.now().minus({ days: 1 }).startOf("day");
+		await counter.save();
+
+		await service.resetDailyCounters(user.id);
+
+		await counter.refresh();
+		assert.equal(counter.value, 3);
+	});
+
+	test("met à jour lastAppliedDate à aujourd'hui", async ({ assert }) => {
+		const user = await createUser();
+		const counter = await createCounter(user.id, {
+			resetEachDay: true,
+			value: 4,
+		});
+
+		counter.lastAppliedDate = DateTime.now().minus({ days: 1 }).startOf("day");
+		await counter.save();
+
+		await service.resetDailyCounters(user.id);
+
+		await counter.refresh();
+		assert.equal(
+			counter.lastAppliedDate?.toFormat("yyyy-MM-dd"),
+			DateTime.now().toFormat("yyyy-MM-dd"),
+		);
+	});
+
+	test("est idempotent — double appel le même jour", async ({ assert }) => {
+		const user = await createUser();
+		const counter = await createCounter(user.id, {
+			resetEachDay: true,
+			initialValue: 0,
+			value: 8,
+		});
+
+		counter.lastAppliedDate = DateTime.now().minus({ days: 1 }).startOf("day");
+		await counter.save();
+
+		await service.resetDailyCounters(user.id);
+		await service.resetDailyCounters(user.id);
+
+		await counter.refresh();
+		assert.equal(counter.value, 0);
+	});
+
+	test("reset le lendemain de la création (lastAppliedDate null)", async ({
+		assert,
+	}) => {
+		const user = await createUser();
+		const counter = await createCounter(user.id, {
+			resetEachDay: true,
+			initialValue: 0,
+			value: 6,
+		});
+
+		counter.createdAt = DateTime.now().minus({ days: 1 }).startOf("day");
+		await counter.save();
+
+		await service.resetDailyCounters(user.id);
+
+		await counter.refresh();
+		assert.equal(counter.value, 0);
+	});
+
+	test("pas de reset si créé aujourd'hui (lastAppliedDate null)", async ({
+		assert,
+	}) => {
+		const user = await createUser();
+		const counter = await createCounter(user.id, {
+			resetEachDay: true,
+			initialValue: 0,
+			value: 5,
+		});
+		// createdAt = aujourd'hui (valeur par défaut)
+
+		await service.resetDailyCounters(user.id);
+
+		await counter.refresh();
+		assert.equal(counter.value, 5);
+	});
+
+	test("ne touche pas les compteurs d'un autre utilisateur", async ({
+		assert,
+	}) => {
+		const user = await createUser();
+		const other = await createUser();
+		const counterOther = await createCounter(other.id, {
+			resetEachDay: true,
+			initialValue: 0,
+			value: 12,
+		});
+
+		counterOther.lastAppliedDate = DateTime.now()
+			.minus({ days: 1 })
+			.startOf("day");
+		await counterOther.save();
+
+		await service.resetDailyCounters(user.id);
+
+		await counterOther.refresh();
+		assert.equal(counterOther.value, 12);
+	});
+});
+
 test.group("CounterService.createCounter", (group) => {
 	group.each.setup(() => testUtils.db().withGlobalTransaction());
 
@@ -240,6 +390,7 @@ test.group("CounterService.createCounter", (group) => {
 				direction: "increment",
 				trigger: "daily",
 				color: "streak-1",
+				resetEachDay: true,
 			},
 			user.id,
 		);

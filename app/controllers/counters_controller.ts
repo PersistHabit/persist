@@ -11,6 +11,7 @@ export default class CountersController {
 	async index({ inertia, auth }: HttpContext) {
 		const { id: userId } = auth.getUserOrFail();
 		await this.counterService.applyDailyTicks(userId);
+		await this.counterService.resetDailyCounters(userId);
 		const counters = await this.counterService.index(userId);
 		return inertia.render("counters", {
 			counters,

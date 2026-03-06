@@ -12,4 +12,5 @@ export const counterValidator = vine.create({
 	direction: vine.enum([...CounterDirectionRules]),
 	trigger: vine.enum([...CounterTriggerRules]),
 	color: vine.enum([...CounterColorRules]),
+	resetEachDay: vine.boolean(),
 });

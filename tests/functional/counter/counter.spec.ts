@@ -36,6 +36,7 @@ const validPayload = {
 	direction: "increment",
 	trigger: "daily",
 	color: "streak-0",
+	resetEachDay: false,
 };
 
 test.group("GET /counters", (group) => {
