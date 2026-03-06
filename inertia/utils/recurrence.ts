@@ -141,6 +141,7 @@ function makeOccurrence(ev: AgendaItem, date: Date): Occurrence {
 			category: ev.category,
 			startDate: ev.startDate,
 			endDate: ev.endDate,
+			startHour: ev.startHour,
 			isPaused: ev.isPaused,
 			activePause: ev.activePause,
 			recurrence: {
@@ -194,10 +195,12 @@ export function buildDays(
 	);
 
 	for (const bucket of allBuckets) {
-		bucket.events.sort(
-			(a, b) =>
-				dayMomentOrder[a.event.dayMoment] - dayMomentOrder[b.event.dayMoment],
-		);
+		bucket.events.sort((a, b) => {
+			const dm =
+				dayMomentOrder[a.event.dayMoment] - dayMomentOrder[b.event.dayMoment];
+			if (dm !== 0) return dm;
+			return (a.event.startHour ?? Infinity) - (b.event.startHour ?? Infinity);
+		});
 	}
 
 	return allBuckets.filter((b) => b.events.length > 0);
