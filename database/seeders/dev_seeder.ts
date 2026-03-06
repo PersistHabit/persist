@@ -1,6 +1,7 @@
 import { BaseSeeder } from "@adonisjs/lucid/seeders";
 import { DateTime } from "luxon";
 import AgendaItem from "#models/agenda_item";
+import Counter from "#models/counter";
 import Journal from "#models/journal";
 import User from "#models/user";
 
@@ -122,6 +123,53 @@ export default class extends BaseSeeder {
 			"Nouvelle semaine qui commence bien, optimisme de mise.",
 			"Réflexion du soir : je progresse doucement mais sûrement.",
 		];
+
+		await Counter.createMany([
+			{
+				userId: user.id,
+				pinned: true,
+				title: "Verres d'eau",
+				direction: "increment",
+				trigger: "manual",
+				initialValue: 0,
+				value: 3,
+				color: "streak-0",
+				lastAppliedDate: DateTime.now().startOf("day"),
+			},
+			{
+				userId: user.id,
+				pinned: true,
+				title: "Cigarettes",
+				direction: "decrement",
+				trigger: "manual",
+				initialValue: 10,
+				value: 7,
+				color: "countdown-0",
+				lastAppliedDate: DateTime.now().startOf("day"),
+			},
+			{
+				userId: user.id,
+				pinned: false,
+				title: "Pages lues",
+				direction: "increment",
+				trigger: "manual",
+				initialValue: 0,
+				value: 42,
+				color: "streak-1",
+				lastAppliedDate: DateTime.now().minus({ days: 1 }).startOf("day"),
+			},
+			{
+				userId: user.id,
+				pinned: false,
+				title: "Séances de sport",
+				direction: "increment",
+				trigger: "daily",
+				initialValue: 0,
+				value: 12,
+				color: "streak-2",
+				lastAppliedDate: DateTime.now().minus({ days: 2 }).startOf("day"),
+			},
+		]);
 
 		await Journal.createMany(
 			Array.from({ length: 50 }, (_, i) => ({
