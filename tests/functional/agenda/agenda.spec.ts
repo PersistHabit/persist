@@ -86,6 +86,7 @@ test.group("POST /agenda", (group) => {
 				dayMoment: "afternoon",
 				category: "health",
 				startDate: "2026-03-01",
+				startHour: 14,
 				recurrence: { type: "once" },
 			})
 			.redirects(0);
@@ -97,6 +98,52 @@ test.group("POST /agenda", (group) => {
 			.firstOrFail();
 		assert.equal(item.recurrenceType, "once");
 		assert.equal(item.title, "Doctor appointment");
+		assert.equal(item.startHour, 14);
+	});
+
+	test("crée un événement sans startHour (null par défaut)", async ({
+		client,
+		assert,
+	}) => {
+		const user = await createUser();
+
+		const response = await client
+			.post("/agenda")
+			.loginAs(user)
+			.withCsrfToken()
+			.json(dailyPayload)
+			.redirects(0);
+
+		response.assertStatus(302);
+
+		const item = await AgendaItem.query()
+			.where("user_id", user.id)
+			.firstOrFail();
+		assert.isNull(item.startHour);
+	});
+
+	test("rejette un startHour invalide (hors plage 0-23)", async ({
+		client,
+		assert,
+	}) => {
+		const user = await createUser();
+
+		const response = await client
+			.post("/agenda")
+			.loginAs(user)
+			.withCsrfToken()
+			.header("referer", "/agenda")
+			.json({
+				...dailyPayload,
+				startHour: 25,
+			})
+			.redirects(0);
+
+		response.assertStatus(302);
+		const count = await AgendaItem.query()
+			.where("user_id", user.id)
+			.count("* as total");
+		assert.equal(Number(count[0].$extras.total), 0);
 	});
 
 	test("crée un événement custom (toutes les 2 semaines)", async ({
@@ -213,6 +260,7 @@ test.group("PUT /agenda/:eventId", (group) => {
 				dayMoment: "evening",
 				category: "sport",
 				startDate: "2026-02-24",
+				startHour: 9,
 				recurrence: { type: "daily" },
 			})
 			.redirects(0);
@@ -223,6 +271,31 @@ test.group("PUT /agenda/:eventId", (group) => {
 		assert.equal(item.title, "Updated title");
 		assert.equal(item.dayMoment, "evening");
 		assert.equal(item.category, "sport");
+		assert.equal(item.startHour, 9);
+	});
+
+	test("met à jour startHour à null", async ({ client, assert }) => {
+		const user = await createUser();
+		const item = await createAgendaItem(user.id, { startHour: 8 });
+
+		const response = await client
+			.put(`/agenda/${item.id}`)
+			.loginAs(user)
+			.withCsrfToken()
+			.json({
+				title: "Test Event",
+				dayMoment: "morning",
+				category: "health",
+				startDate: "2026-02-24",
+				startHour: null,
+				recurrence: { type: "daily" },
+			})
+			.redirects(0);
+
+		response.assertStatus(302);
+
+		await item.refresh();
+		assert.isNull(item.startHour);
 	});
 
 	test("ne peut pas modifier l'événement d'un autre utilisateur", async ({
