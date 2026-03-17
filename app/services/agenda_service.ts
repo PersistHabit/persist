@@ -168,6 +168,13 @@ export class AgendaService {
 			}
 		});
 
+		todayItems.sort((a, b) => {
+			if (a.startHour && b.startHour) return a.startHour - b.startHour;
+			if (a.startHour) return -1;
+			if (b.startHour) return 1;
+			return 0;
+		});
+
 		return todayItems.map((item) => {
 			const pause = item.pauses[0] ?? null;
 			const completion = item.completions[0] ?? null;
