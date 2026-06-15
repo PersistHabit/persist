@@ -66,7 +66,7 @@ export class CounterService {
 			.where("user_id", userId)
 			.andWhere("id", counterId)
 			.firstOrFail();
-		counter.merge(payload);
+		counter.merge({ ...payload, initialValue: payload.value });
 		await counter.save();
 	}
 

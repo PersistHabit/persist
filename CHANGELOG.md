@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2026-06-15
+
+### Features
+
+- **Statistiques** — Nouvelle page offrant une vue d'ensemble des tâches : taux de complétion sur 14 jours, graphique hebdomadaire, répartition par catégorie et distribution des tâches
+
 ## [1.1.0] - 2026-03-06
 
 ### Features

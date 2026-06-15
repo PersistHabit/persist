@@ -28,7 +28,7 @@ export function formatRecurrence(ev: AgendaItemOccurrence) {
 
 		case "custom":
 			if (ev.recurrence.interval && ev.recurrence.unit) {
-				return `Tous les ${ev.recurrence.interval} ${ev.recurrence.unit}s`;
+				return `${ev.recurrence.unit === "month" ? "Tous" : "Toutes"} les ${ev.recurrence.interval} ${ev.recurrence.unit === "month" ? "mois" : "semaines"}`;
 			}
 			return "Personnalisé";
 

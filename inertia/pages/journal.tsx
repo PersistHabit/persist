@@ -77,7 +77,7 @@ const JournalPage = ({ entries, meta }: Props) => {
 			<div className="flex flex-col flex-1 min-h-0">
 				<PageHeader title="Journal" subtitle={subtitle} icon={BookOpen} />
 
-				<div className="flex-1 min-h-0 overflow-y-auto pb-28 p-4 space-y-2">
+				<div className="flex-1 min-h-0 overflow-y-auto p-4 space-y-2">
 					{allEntries.length === 0 ? (
 						<EmptyList label="Aucune entrée dans ton journal" icon={BookOpen} />
 					) : (
