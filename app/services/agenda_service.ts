@@ -2,7 +2,7 @@ import { DateTime } from "luxon";
 import AgendaItem from "#models/agenda_item";
 import AgendaItemPause from "#models/agenda_item_pause";
 import type { EventPayload } from "#types/agenda";
-import { daysToNumberMap } from "../helpers/agenda.js";
+import { daysToNumberMap, isItemDueOn } from "../helpers/agenda.js";
 
 export class AgendaService {
 	async listEvents(userId: number) {
@@ -127,46 +127,7 @@ export class AgendaService {
 				q.where("occurrence_date", todayStr);
 			});
 
-		const todayWeekday = today.toJSDate().getDay();
-
-		const todayItems = items.filter((item) => {
-			const start = item.startDate;
-
-			switch (item.recurrenceType) {
-				case "once":
-					return start.toFormat("yyyy-MM-dd") === todayStr;
-
-				case "daily":
-					return true;
-
-				case "weekly": {
-					const allowed = item.weekDays?.length
-						? item.weekDays
-						: [start.toJSDate().getDay()];
-					return allowed.includes(todayWeekday);
-				}
-
-				case "monthly":
-					return start.day === today.day;
-
-				case "custom": {
-					const interval = item.recurrenceInterval ?? 1;
-					const startMonday = start.startOf("week");
-					const todayMonday = today.startOf("week");
-					const weeksDiff = Math.floor(
-						todayMonday.diff(startMonday, "weeks").weeks,
-					);
-					if (weeksDiff < 0 || weeksDiff % interval !== 0) return false;
-					const allowed = item.weekDays?.length
-						? item.weekDays
-						: [start.toJSDate().getDay()];
-					return allowed.includes(todayWeekday);
-				}
-
-				default:
-					return false;
-			}
-		});
+		const todayItems = items.filter((item) => isItemDueOn(item, today));
 
 		todayItems.sort((a, b) => {
 			if (a.startHour && b.startHour) return a.startHour - b.startHour;

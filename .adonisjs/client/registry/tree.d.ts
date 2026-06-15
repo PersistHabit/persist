@@ -43,6 +43,9 @@ export interface ApiDefinition {
     update: typeof routes['shoppings.update']
     destroy: typeof routes['shoppings.destroy']
   }
+  stats: {
+    index: typeof routes['stats.index']
+  }
   page: {
     login: typeof routes['page.login']
     register: typeof routes['page.register']
