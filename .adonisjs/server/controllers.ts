@@ -9,5 +9,6 @@ export const controllers = {
   Journal: () => import('#controllers/journal_controller'),
   Session: () => import('#controllers/session_controller'),
   Shoppings: () => import('#controllers/shoppings_controller'),
+  Stats: () => import('#controllers/stats_controller'),
   Todays: () => import('#controllers/todays_controller'),
 }

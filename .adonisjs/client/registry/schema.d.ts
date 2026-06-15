@@ -304,6 +304,17 @@ export interface Registry {
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/shoppings_controller').default['destroy']>>>
     }
   }
+  'stats.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/stats'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/stats_controller').default['index']>>>
+    }
+  }
   'page.login': {
     methods: ["GET","HEAD"]
     pattern: '/login'

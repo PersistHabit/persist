@@ -8,7 +8,7 @@ type Props = {
 
 const ShoppingItemList = ({ items, today = false }: Props) => {
 	return (
-		<div className={`${!today ? "p-4" : ""} space-y-4`}>
+		<div className={`${!today ? "p-4" : ""} space-y-4 overflow-y-auto pb-40`}>
 			{!today && <h2 className="uppercase text-muted-foreground">Articles</h2>}
 
 			<ul className="space-y-2">

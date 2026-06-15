@@ -25,6 +25,7 @@ export default class TodaysController {
 	async index({ auth, inertia }: HttpContext) {
 		const { id } = auth.getUserOrFail();
 		await this.counterService.applyDailyTicks(id);
+		await this.counterService.resetDailyCounters(id);
 		const counters = await this.counterService.listPinned(id);
 		const shoppingItems = await this.shoppingService.listPinned(id);
 		const [items, journal] = await Promise.all([

@@ -168,6 +168,12 @@ const routes = {
     tokens: [{"old":"/shopping/:shoppingItemId","type":0,"val":"shopping","end":""},{"old":"/shopping/:shoppingItemId","type":1,"val":"shoppingItemId","end":""}],
     types: placeholder as Registry['shoppings.destroy']['types'],
   },
+  'stats.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/stats',
+    tokens: [{"old":"/stats","type":0,"val":"stats","end":""}],
+    types: placeholder as Registry['stats.index']['types'],
+  },
   'page.login': {
     methods: ["GET","HEAD"],
     pattern: '/login',
